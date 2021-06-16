@@ -18,13 +18,13 @@ block content
             span.text-muted #{profileUser.profile.firstName} #{profileUser.profile.lastName} 
             if userIsSuper == 1
                 sup
-                    i.fas.fa-crown
+                    i.fas.fa-crown(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
             
     else
         .display-5.border-bottom.ps-5.mx-3 Your profile 
             if userIsSuper == 1
                 sup
-                    i.fas.fa-crown
+                    i.fas.fa-crown(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
 
     .row.mt-1.px-5.justify-content-between
         .col-sm-2.my-3

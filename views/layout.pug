@@ -1,0 +1,64 @@
+block variables
+    
+-
+    userMenu = {
+        'Dashboard': '/dashboard',
+        'Projects': '/dashboard',
+        'New project':'/dashboard'
+        };
+    adminMenu = {
+        'Something': '/dashboard',
+    };
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+        link(href="https://fonts.googleapis.com/css2?family=Overpass:wght@100;200;300;400&display=swap", rel="stylesheet")
+        link(rel="canonical", href="https://getbootstrap.com/docs/5.0/components/carousel/")
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x", crossorigin="anonymous")
+        link(rel="stylesheet", href="/stylesheets/style.css")
+        link(rel="apple-touch-icon", sizes="180x180", href="/favicon/apple-touch-icon.png")
+        link(rel="icon", type="image/png", sizes="32x32", href="/favicon/favicon-32x32.png")
+        link(rel="icon", type="image/png", sizes="16x16", href="/favicon/favicon-16x16.png")
+        link(rel="manifest", href="/site.webmanifest")
+        link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#5bbad5")
+        meta(name="msapplication-TileColor", content="#da532c")
+        meta(name="theme-color", content="#ffffff")
+        script(src="https://code.jquery.com/jquery-3.6.0.min.js", integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=", crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js", integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4", crossorigin="anonymous")
+        title Projector | #{title}
+        block scripts
+    body
+        nav#main-nav.navbar.navbar-expand-md.navbar-dark.fixed-top.py-0.py-md-1.shadow-sm
+            div.container-fluid
+                a.navbar-brand(href="/", title="Projector Home")
+                    i.fas.fa-project-diagram
+                button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarText", aria-controls="navbarText", aria-expanded="false", aria-label="Toggle navigation")
+                    span.navbar-toggler-icon
+                if user != undefined
+                    ul.navbar-nav.me-auto.my-2
+                        each val, key in userMenu
+                            li.nav-item
+                                a.nav-link(href=val) #{key}
+                if user == undefined
+                    a.nav-link.extra-nav(href="/users/login") Log In
+                else
+                    if userIsSuper == 1
+                        .dropdown
+                            a.btn.btn-secondary.dropdown-toggle(href="#", role="button", id="adminMenu", data-bs-toggle="dropdown", aria-expanded="false") Admin
+                            ul.dropdown-menu(aria-labelledby="adminMenu")
+                                each val, key in adminMenu
+                                    li
+                                        a.dropdown-item(href=val) #{key}
+                    a.nav-link.extra-nav(href="/users/profile") #{user.profile.firstName} #{user.profile.lastName} 
+                    a.nav-link.extra-nav(href="/users/logout") Logout
+        section.container-fluid.my-4.py-5
+            block content
+
+        footer#page-footer.fixed-bottom.text-center.shadow-sm.py-1.
+            Built with #[a(href="https://expressjs.com/") Express.js], login powered by #[a(href="https://developer.okta.com/") Okta].
+
+        script(src="https://kit.fontawesome.com/e7e29266a1.js", crossorigin="anonymous")
+        script(src="/javascripts/app.js")

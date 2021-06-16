@@ -1,0 +1,199 @@
+:root {
+  /* color-scheme 'Jewelry' */
+  --rose-gold: #bd8c7d;
+  --soft-gold: #d1bfa7;
+  --silver: #8e8e90;
+  --onyx: #49494b;
+
+  /* color-scheme 'Jungle Book' */
+  --simpler-lime-green: #7dce94;
+  --simpler-lime-green-a0-6: rgba(125, 206, 148, 0.6);
+  --scuffed-dark-grey: #3d3d3f;
+  --scuffed-dark-grey-a0-5: rgba(61, 61, 63, 0.5);
+  --vanilla-grey: #f6f5f3;
+  --white-ish: #f9f8fd;
+}
+
+/* Scrollbar overrides Chromium */
+body::-webkit-scrollbar {
+  width: 2px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--vanilla-grey);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--scuffed-dark-grey);
+  border-radius: 20px;
+  border: none;
+}
+
+/* Base CSS */
+
+body {
+  /* Scrollbar overrides for Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scuffed-dark-grey) var(--vanilla-grey);
+  background: var(--vanilla-grey);
+  font-family: "Overpass", sans-serif;
+}
+
+.fa-crown {
+    font-size: initial;
+    color: var(--soft-gold);
+}
+
+.fa-crown:hover {
+    color: var(--rose-gold);
+}
+
+.navbar,
+#page-footer {
+  background: var(--scuffed-dark-grey);
+}
+
+.navbar-dark .navbar-brand {
+  color: var(--simpler-lime-green);
+  font-size: 1.5rem;
+}
+
+.navbar-dark .navbar-brand:hover {
+  color: var(--vanilla-grey);
+}
+
+a.extra-nav {
+  color: var(--vanilla-grey);
+  font-weight: 200;
+}
+
+a.extra-nav:hover {
+  color: var(--simpler-lime-green);
+  font-weight: 200;
+}
+
+.responsive-text {
+  color: var(--scuffed-dark-grey);
+}
+
+footer {
+  color: var(--simpler-lime-green);
+  font-weight: 200;
+}
+
+footer a {
+  color: var(--vanilla-grey);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--simpler-lime-green);
+}
+
+/* minimal styling for the EditorJS element */
+#editorjs {
+  background-color: #ffffff;
+}
+
+#editorPreview {
+  background-color: #ededed;
+  min-height: 340px;
+}
+
+ol {
+  list-style: none;
+}
+ol.nestedOl {
+  counter-reset: nestedOl;
+}
+ol.nestedOl > li:before {
+  counter-increment: nestedOl;
+  content: counter(nestedOl) ".";
+  padding-right: 5px;
+}
+ol.nestedOl li ol {
+  counter-reset: inner;
+}
+ol.nestedOl ol li:before {
+  counter-increment: inner;
+  content: counter(nestedOl) "." counters(inner, ".");
+  padding-right: 5px;
+}
+
+/* additional classes to be added with JS events */
+.navbar.scrolled {
+  background-color: var(--scuffed-dark-grey-a0-5);
+  transition: background 400ms;
+}
+
+/* Bootstrap overrides */
+.btn-primary {
+  color: var(--vanilla-grey);
+  background-color: var(--scuffed-dark-grey);
+  border-color: var(--white-ish);
+}
+
+.btn-primary:hover {
+  background-color: var(--vanilla-grey);
+  color: var(--scuffed-dark-grey);
+  border-color: var(--scuffed-dark-grey);
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--scuffed-dark-grey);
+}
+
+.custom-control-input:focus ~ .custom-control-label::before,
+.form-control:focus {
+  border-color: var(--simpler-lime-green);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset,
+    0px 0px 8px var(--simpler-lime-green-a0-6);
+}
+
+/* media queries to accomodate different screensizes  */
+@media only screen and (max-width: 1600px) {
+  #headings > h1 {
+    font-size: 7rem;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .responsive-text > h1,
+  #contact-inner > h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media only screen and (max-width: 1230px) {
+  .responsive-text > p,
+  #contact-inner > div > p {
+    font-size: 1rem;
+  }
+
+  #contact-inner > div > div.col-8 > h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  #headings > h1 {
+    font-size: 5rem;
+  }
+}
+
+@media only screen and (max-width: 830px) {
+  .responsive-text > h1,
+  #contact-inner > h1 {
+    font-size: 2rem;
+  }
+
+  .responsive-text > p,
+  #contact-inner > div > p {
+    font-size: 0.8rem;
+  }
+
+  #contact-inner > div > div.col-8 > h3,
+  #contact-inner > div > div.col-8 > p > a > i {
+    font-size: 1.25rem;
+  }
+}

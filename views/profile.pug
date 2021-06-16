@@ -1,0 +1,51 @@
+extends layout
+
+mixin userVariables(vars)
+    ul
+        each val, key in vars
+            li= key + " : " + val
+                if (val && typeof val === 'object')
+                    +userVariables(val)
+
+block variables
+    - var title = 'Profile'
+
+block content
+    if user.id != profileUser.id
+        .display-5.border-bottom.ps-5.mx-3
+            span.
+                Profile for 
+            span.text-muted #{profileUser.profile.firstName} #{profileUser.profile.lastName} 
+            if userIsSuper == 1
+                sup
+                    i.fas.fa-crown
+            
+    else
+        .display-5.border-bottom.ps-5.mx-3 Your profile 
+            if userIsSuper == 1
+                sup
+                    i.fas.fa-crown
+
+    .row.mt-1.px-5.justify-content-between
+        .col-sm-2.my-3
+            .card
+                if !profilePicture
+                    img.card-img(src="https://simplyilm.com/wp-content/uploads/2017/08/temporary-profile-placeholder-1.jpg")
+                else
+                    img.card-img(src="data:image/png;base64," + profilePicture)
+                .card-body
+                    h5.card-title.
+                        Personal info:
+                    ul.list-unstyled
+                        li First name: #{profileUser.profile.firstName}
+                        li Last name: #{profileUser.profile.lastName}
+                        li E-mail: 
+                            a(href="mailto:" + profileUser.profile.email) #{profileUser.profile.email}
+                        unless !profileUser.profile.secondEmail
+                            li Second e-mail: 
+                                a(href="mailto:" + profileUser.profile.secondEmail) #{profilePicture.profile.secondEmail}
+                        unless !profileUser.profile.mobilePhone
+                            li Mobile phone: #{profileUser.profile.mobilePhone}
+
+        .col-sm-4
+            +userVariables(profileUser)

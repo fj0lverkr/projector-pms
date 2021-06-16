@@ -1,0 +1,24 @@
+{
+  "name": "projector-pms",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "@okta/oidc-middleware": "^4.1.0",
+    "@okta/okta-sdk-nodejs": "^4.5.1",
+    "categorized-words": "^1.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^9.0.2",
+    "express": "~4.16.1",
+    "express-session": "^1.17.1",
+    "http-errors": "~1.6.3",
+    "image-to-base64": "^2.2.0",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "pug": "^3.0.2",
+    "uuid": "^3.4.0"
+  }
+}

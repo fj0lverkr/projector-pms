@@ -1,0 +1,30 @@
+block scripts
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/nested-list@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest")
+    script(src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest")
+    script(src="javascripts/editor.js")
+        
+.row.justify-content-between
+    .col-5.mt-3.mb-5.ms-5
+        p.h3.ms-4 Editor - 
+            small#workingTitle.text-muted #{workingTitle}
+            .d-flex.justify-content-start
+                button#btnSave.btn.btn-success.disabled.me-1.
+                    save #{recordType}
+        #editorjs.border.rounded.shadow
+    .col-5.mt-3.mb-5.me-5
+        p.h3.ms-4 Preview - 
+            small#previewTitle.text-muted #{workingTitle}
+            .d-flex.justify-content-end
+                button#btnStartOver.btn.btn-danger.disabled(value=workingTitle).
+                    start over
+        #editorPreview.border.rounded.py-2.px-2.shadow
+            #editorPreviewInner
+        small#timeStamp.text-muted.ms-2.mt-4

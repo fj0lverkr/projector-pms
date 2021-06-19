@@ -50,11 +50,10 @@ html(lang="en")
                                         each val, key in adminMenu
                                             li
                                                 a.dropdown-item(href=val) #{key}
-                        if user == undefined
-                            a.nav-link.extra-nav(href="/users/login") Log In
-                        else
-                            a.nav-link.extra-nav(href="/users/profile") #{user.profile.firstName} #{user.profile.lastName} 
-                            a.nav-link.extra-nav(href="/users/logout") Logout
+                    a.nav-link.extra-nav(href="/users/profile") #{user.profile.firstName} #{user.profile.lastName} 
+                    a.nav-link.extra-nav(href="/users/logout") Logout
+                else
+                    a.nav-link.extra-nav(href="/users/login") Log In
         section.container-fluid.my-4.py-5
             block content
 

@@ -72,10 +72,6 @@ a.extra-nav:hover {
   font-weight: 200;
 }
 
-.responsive-text {
-  color: var(--scuffed-dark-grey);
-}
-
 footer {
   color: var(--simpler-lime-green);
   font-weight: 200;
@@ -148,52 +144,4 @@ ol.nestedOl ol li:before {
   border-color: var(--simpler-lime-green);
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset,
     0px 0px 8px var(--simpler-lime-green-a0-6);
-}
-
-/* media queries to accomodate different screensizes  */
-@media only screen and (max-width: 1600px) {
-  #headings > h1 {
-    font-size: 7rem;
-  }
-}
-
-@media only screen and (max-width: 1250px) {
-  .responsive-text > h1,
-  #contact-inner > h1 {
-    font-size: 2.5rem;
-  }
-}
-
-@media only screen and (max-width: 1230px) {
-  .responsive-text > p,
-  #contact-inner > div > p {
-    font-size: 1rem;
-  }
-
-  #contact-inner > div > div.col-8 > h3 {
-    font-size: 1.5rem;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  #headings > h1 {
-    font-size: 5rem;
-  }
-}
-
-@media only screen and (max-width: 830px) {
-  .responsive-text > h1,
-  #contact-inner > h1 {
-    font-size: 2rem;
-  }
-
-  .responsive-text > p,
-  #contact-inner > div > p {
-    font-size: 0.8rem;
-  }
-
-  #contact-inner > div > div.col-8 > h3,
-  #contact-inner > div > div.col-8 > p > a > i {
-    font-size: 1.25rem;
-  }
 }

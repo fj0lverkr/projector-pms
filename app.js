@@ -13,6 +13,7 @@ const userData = require("./util/userData");
 const dashboardRouter = require("./routes/dashboard");
 const publicRouter = require("./routes/public");
 const usersRouter = require("./routes/users");
+const adminRouter = require("./routes/admin");
 
 var app = express();
 
@@ -65,9 +66,16 @@ app.use((req, res, next) => {
     });
 });
 
-//middleware function for access control
+//middleware functions for access control
 function loginRequired(req, res, next) {
   if (!req.userContext) {
+    return res.status(401).render("unauthenticated");
+  }
+  next();
+}
+
+function adminRequired(req, res, next) {
+  if (!req.userContext || req.userIsSuper != 1) {
     return res.status(401).render("unauthenticated");
   }
   next();
@@ -76,6 +84,7 @@ function loginRequired(req, res, next) {
 app.use("/", publicRouter);
 app.use("/dashboard", loginRequired, dashboardRouter);
 app.use("/users", usersRouter);
+app.use("/admin", adminRequired, adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (next) {

@@ -49,6 +49,7 @@ body {
 }
 
 .navbar,
+.dropdown-menu-dark,
 #page-footer {
   background: var(--scuffed-dark-grey);
 }

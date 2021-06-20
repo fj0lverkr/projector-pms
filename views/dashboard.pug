@@ -4,10 +4,6 @@ block variables
     - var title = 'Dashboard'
 
 block content
-    h2.text-center Dashboard
-
+    .display-5.border-bottom.ps-5.mx-3 #{title} 
     .row
-        .offset-sm-2.col-sm-8
-            .jumbotron.text-center.
-                Welcome to your dashboard page, #{user.profile.firstName}.
         include ./includes/editor.pug

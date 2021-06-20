@@ -46,7 +46,7 @@ html(lang="en")
                             if userIsSuper == 1
                                 li.nav-item.dropdown
                                     a.nav-link.dropdown-toggle(href="#", id="adminDropdownMenuLink", role="button", data-bs-toggle="dropdown", aria-expanded="false") Admin
-                                    ul.dropdown-menu(aria-labelledby="adminDropdownMenuLink")
+                                    ul.dropdown-menu.dropdown-menu-dark(aria-labelledby="adminDropdownMenuLink")
                                         each val, key in adminMenu
                                             li
                                                 a.dropdown-item(href=val) #{key}

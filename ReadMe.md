@@ -1,6 +1,6 @@
 # Projector PMS
 ## Intro
-Projector is a free and open source project management app written in NodeJS and Pug.
+Projector is a free and open source project management app written in NodeJS, Pug and Bootstrap 5.
 ## Getting Started
 After cloning this repo and optionally moving it to a suitable location follow these steps to get started using or working on Projector:
 1. in a terminal, cd into the folder where you've cloned or moved the repo.

@@ -6,8 +6,14 @@ const oktaClient = require("../util/oktaClient");
 
 //Admin root page
 router.get("/", (req, res) => {
-
-  res.render("admin/dashboard");
+  let oktaUserList = [];
+  let oktaUserIdList = userData.getAllOktaUsers();
+  oktaUserIdList.forEach((oktaId) => {
+    oktaClient.getUser(oktaId).then((user) => {
+      oktaUserList.push(user);
+    });
+  });
+  res.render("admin/dashboard", { userList: oktaUserList });
 });
 
 module.exports = router;

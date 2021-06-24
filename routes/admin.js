@@ -6,6 +6,7 @@ const oktaClient = require("../util/oktaClient");
 
 //Admin root page
 router.get("/", (req, res) => {
+
   res.render("admin/dashboard");
 });
 

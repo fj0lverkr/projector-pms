@@ -4,6 +4,25 @@ const dbc = require("../data/db");
 
 dotenv.config();
 
+const getAllOktaUsers = () => {
+  let dbName = process.env.DBNAME || "projector_dev";
+  let query = "select okta_id form " + dbName + ".user_extra;";
+  return new Promise((resolve, reject) => {
+    dbc.query(query, function (err, result) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      if (result.length > 0) {
+        resolve(result);
+      } else {
+        console.log("No users found in database");
+        reject("No users found in database");
+      }
+    });
+  });
+};
+
 const getUserIsSuper = (okta_id) => {
   let dbName = process.env.DBNAME || "projector_dev";
   let isSuperIntQuery = "select superUser from " + dbName + ".app_roles ARO ";
@@ -104,4 +123,4 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
   });
 };
 
-module.exports = { getUserIsSuper, getUserProfile };
+module.exports = { getAllOktaUsers, getUserIsSuper, getUserProfile };

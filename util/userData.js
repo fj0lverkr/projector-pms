@@ -6,7 +6,7 @@ dotenv.config();
 
 const getAllOktaUsers = () => {
   let dbName = process.env.DBNAME || "projector_dev";
-  let query = "select okta_id form " + dbName + ".user_extra;";
+  let query = "select okta_id from " + dbName + ".user_extra;";
   return new Promise((resolve, reject) => {
     dbc.query(query, function (err, result) {
       if (err) {

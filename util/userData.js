@@ -1,12 +1,16 @@
 const dotenv = require("dotenv");
 const imageToBase64 = require("image-to-base64");
 const dbc = require("../data/db");
+const oktaClient = require("../util/oktaClient");
 
 dotenv.config();
 
 const getAllOktaUsers = () => {
   let dbName = process.env.DBNAME || "projector_dev";
-  let query = "select okta_id from " + dbName + ".user_extra;";
+  let query =
+    "select okta_id, alias, first_name, last_name from " +
+    dbName +
+    ".user_extra;";
   return new Promise((resolve, reject) => {
     dbc.query(query, function (err, result) {
       if (err) {
@@ -88,38 +92,52 @@ const getUserProfile = (okta_id) => {
 
 const setupUserExtraData = (dbName, okta_id, user_role) => {
   return new Promise((resolve) => {
-    imageToBase64(process.env.GENAVATAR)
-      .then((response) => {
-        var insertUser =
-          "insert into " +
-          dbName +
-          ".user_extra(okta_id, profile_picture, user_role) values ('" +
-          okta_id +
-          "', '" +
-          response +
-          "', " +
-          user_role +
-          ");";
-        dbc.query(insertUser, function (err) {
-          if (err) console.log(err);
-          resolve(true);
+    oktaClient.getUser(okta_id).then((user) => {
+      imageToBase64(process.env.GENAVATAR)
+        .then((response) => {
+          var insertUser =
+            "insert into " +
+            dbName +
+            ".user_extra(okta_id, profile_picture, user_role, first_name, last_name, alias) values ('" +
+            okta_id +
+            "', '" +
+            response +
+            "', " +
+            user_role +
+            ", '" +
+            user.profile.firstName +
+            "', '" +
+            user.profile.lastName +
+            "', '" +
+            user.profile.lastName + user.profile.firstName +
+            "');";
+          dbc.query(insertUser, function (err) {
+            if (err) console.log(err);
+            resolve(true);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          var insertUser =
+            "insert into " +
+            dbName +
+            ".user_extra(okta_id, user_role, first_name, last_name, alias) values ('" +
+            okta_id +
+            "', " +
+            user_role +
+            ", '" +
+            user.profile.firstName +
+            "', '" +
+            user.profile.lastName +
+            "', '" +
+            user.profile.lastName + user.profile.firstName +
+            "');";
+          dbc.query(insertUser, function (err) {
+            if (err) console.log(err);
+            resolve(true);
+          });
         });
-      })
-      .catch((err) => {
-        console.error(err);
-        var insertUser =
-          "insert into " +
-          dbName +
-          ".user_extra(okta_id, user_role) values ('" +
-          okta_id +
-          "', " +
-          user_role +
-          ");";
-        dbc.query(insertUser, function (err) {
-          if (err) console.log(err);
-          resolve(true);
-        });
-      });
+    });
   });
 };
 

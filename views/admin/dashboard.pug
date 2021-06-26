@@ -1,9 +1,19 @@
 extends ../layout
 
+mixin userProfileList(vars)
+    .list-group
+        each val in vars
+            a.list-group-item.list-group-item-action(href="../users/profile/" + val["okta_id"]) #{val["alias"]} (#{val["first_name"]} #{val["last_name"]})
+
 block variables
     - var title = "Admin dashboard"
 
 block content
     .display-5.border-bottom.ps-5.mx-3 #{title} 
-    .row.justify-content-around.pt-5
-        .col-10.col-md-8.col-lg-6
+    .row.justify-content-evenly.pt-5.mx-2.pb-2.border-bottom
+        .col-6.border-end.py-2
+            h2.display-6 Users
+            +userProfileList(userList)
+        .col-6.border-start.py-2
+            h2.display-6 Teams
+    .row.justify-content-evenly.pb-5.mx-2.pt-2.border-top

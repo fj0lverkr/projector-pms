@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `projector_dev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `projector_dev`;
 -- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
 -- Host: localhost    Database: projector_dev
@@ -62,6 +60,15 @@ CREATE TABLE `teams` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `teams`
+--
+
+LOCK TABLES `teams` WRITE;
+/*!40000 ALTER TABLE `teams` DISABLE KEYS */;
+/*!40000 ALTER TABLE `teams` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user-team`
 --
 
@@ -83,6 +90,15 @@ CREATE TABLE `user-team` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `user-team`
+--
+
+LOCK TABLES `user-team` WRITE;
+/*!40000 ALTER TABLE `user-team` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user-team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_extra`
 --
 
@@ -94,13 +110,26 @@ CREATE TABLE `user_extra` (
   `okta_id` varchar(20) NOT NULL,
   `profile_picture` longtext,
   `user_role` int DEFAULT NULL,
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `alias` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`iduser_extra`),
   UNIQUE KEY `okta_id_UNIQUE` (`okta_id`),
   KEY `fk-app_role_idx` (`user_role`),
   CONSTRAINT `fk-app_role` FOREIGN KEY (`user_role`) REFERENCES `app_roles` (`idapp_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_extra`
+--
+
+LOCK TABLES `user_extra` WRITE;
+/*!40000 ALTER TABLE `user_extra` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_extra` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -109,4 +138,4 @@ CREATE TABLE `user_extra` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-16 19:26:41
+-- Dump completed on 2021-06-26 16:08:55

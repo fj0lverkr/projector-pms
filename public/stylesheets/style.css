@@ -14,19 +14,24 @@
   --white-ish: #f9f8fd;
 }
 
-/* Scrollbar overrides Chromium */
-body::-webkit-scrollbar {
-  width: 2px;
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scuffed-dark-grey) var(--vanilla-grey);
 }
 
-body::-webkit-scrollbar-track {
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+*::-webkit-scrollbar-track {
   background: var(--vanilla-grey);
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: var(--scuffed-dark-grey);
-  border-radius: 20px;
-  border: none;
 }
 
 /* Base CSS */

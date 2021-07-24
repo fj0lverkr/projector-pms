@@ -5,10 +5,29 @@ const oktaClient = require("../util/oktaClient");
 
 dotenv.config();
 
+const getAllAppRoles = () => {
+  let dbName = process.env.DBNAME || "projector_dev";
+  let query = "SELECT * FROM " + dbName + ".app_roles;";
+  return new Promise((resolve, reject) => {
+    dbc.query(query, function (err, result) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      if (result.length > 0) {
+        resolve(result);
+      } else {
+        console.log("No app roles in database.");
+        reject("No app roles in database.");
+      }
+    });
+  });
+};
+
 const getAllOktaUsers = () => {
   let dbName = process.env.DBNAME || "projector_dev";
   let query =
-    "select okta_id, alias, first_name, last_name from " +
+    "select okta_id, alias, first_name, last_name, user_role from " +
     dbName +
     ".user_extra;";
   return new Promise((resolve, reject) => {
@@ -109,7 +128,8 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
             "', '" +
             user.profile.lastName +
             "', '" +
-            user.profile.lastName + user.profile.firstName +
+            user.profile.lastName +
+            user.profile.firstName +
             "');";
           dbc.query(insertUser, function (err) {
             if (err) console.log(err);
@@ -130,7 +150,8 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
             "', '" +
             user.profile.lastName +
             "', '" +
-            user.profile.lastName + user.profile.firstName +
+            user.profile.lastName +
+            user.profile.firstName +
             "');";
           dbc.query(insertUser, function (err) {
             if (err) console.log(err);
@@ -141,4 +162,4 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
   });
 };
 
-module.exports = { getAllOktaUsers, getUserIsSuper, getUserProfile };
+module.exports = {  getAllAppRoles, getAllOktaUsers, getUserIsSuper, getUserProfile };

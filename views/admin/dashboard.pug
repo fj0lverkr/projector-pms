@@ -1,6 +1,6 @@
 extends ../layout
 
-mixin userProfileList(users, roles)
+mixin userProfileList(u, users, roles)
     .list-group.container
         each user in users
             .list-group-item.list-group-item-action
@@ -8,12 +8,13 @@ mixin userProfileList(users, roles)
                     .col-6
                         a(href="../users/profile/" + user["okta_id"]) #{user["alias"]}
                     .col-6.text-end
-                        select(name="roleSelect" id="roleUser=" + user["okta_id"])
-                            each role in roles
-                                - if(role["idapp_roles"] == user["user_role"])
-                                    option(value=role["idapp_roles"] selected) #{role["name"]}
-                                - else
-                                    option(value=role["idapp_roles"]) #{role["name"]}
+                        - if(u.id != user["okta_id"])
+                            select.roleSelect(name="roleSelect" id="roleUser=" + user["okta_id"])
+                                each role in roles
+                                    - if(role["idapp_roles"] == user["user_role"])
+                                        option(value=role["idapp_roles"] selected) #{role["name"]}
+                                    - else
+                                        option(value=role["idapp_roles"]) #{role["name"]}
 
 block variables
     - var title = "Admin dashboard"
@@ -23,7 +24,8 @@ block content
     .row.justify-content-evenly.pt-5.mx-2.pb-2.border-bottom
         .col-6.border-end.py-2
             h2.display-6 Users
-            +userProfileList(userList, roleList)
+            +userProfileList(currentUser, userList, roleList)
         .col-6.border-start.py-2
             h2.display-6 Teams
     .row.justify-content-evenly.pb-5.mx-2.pt-2.border-top
+    script(src="/javascripts/admin.js")

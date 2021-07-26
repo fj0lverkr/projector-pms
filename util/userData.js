@@ -51,7 +51,7 @@ const getUserIsSuper = (okta_id) => {
   let isSuperIntQuery = "select superUser from " + dbName + ".app_roles ARO ";
   isSuperIntQuery += "inner join " + dbName;
   isSuperIntQuery += ".user_extra UEX on UEX.user_role = ARO.idapp_roles ";
-  isSuperIntQuery += "where UEX.okta_id = '" + okta_id + "';";
+  isSuperIntQuery += "where UEX.okta_id = " + dbc.escape(okta_id) + ";";
   return new Promise((resolve, reject) => {
     dbc.query(isSuperIntQuery, function (err, result) {
       if (err) {
@@ -83,9 +83,9 @@ const getUserProfile = (okta_id) => {
     ".user_extra UEX inner join " +
     dbName +
     ".app_roles ARO on ARO.idapp_roles = UEX.user_role " +
-    "where UEX.okta_id = '" +
-    okta_id +
-    "';";
+    "where UEX.okta_id = " +
+    dbc.escape(okta_id) +
+    ";";
   return new Promise((resolve, reject) => {
     dbc.query(selectUserProfile, function (err, result) {
       if (err) {
@@ -117,20 +117,19 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
           var insertUser =
             "insert into " +
             dbName +
-            ".user_extra(okta_id, profile_picture, user_role, first_name, last_name, alias) values ('" +
-            okta_id +
-            "', '" +
-            response +
-            "', " +
-            user_role +
-            ", '" +
-            user.profile.firstName +
-            "', '" +
-            user.profile.lastName +
-            "', '" +
-            user.profile.lastName +
-            user.profile.firstName +
-            "');";
+            ".user_extra(okta_id, profile_picture, user_role, first_name, last_name, alias) values (" +
+            dbc.escape(okta_id) +
+            ", " +
+            dbc.escape(response) +
+            ", " +
+            dbc.escape(user_role) +
+            ", " +
+            dbc.escape(user.profile.firstName) +
+            ", " +
+            dbc.escape(user.profile.lastName) +
+            ", " +
+            dbc.escape(user.profile.lastName + user.profile.firstName) +
+            ");";
           dbc.query(insertUser, function (err) {
             if (err) console.log(err);
             resolve(true);
@@ -141,18 +140,17 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
           var insertUser =
             "insert into " +
             dbName +
-            ".user_extra(okta_id, user_role, first_name, last_name, alias) values ('" +
-            okta_id +
-            "', " +
-            user_role +
-            ", '" +
-            user.profile.firstName +
-            "', '" +
-            user.profile.lastName +
-            "', '" +
-            user.profile.lastName +
-            user.profile.firstName +
-            "');";
+            ".user_extra(okta_id, user_role, first_name, last_name, alias) values (" +
+            dbc.escape(okta_id) +
+            ", " +
+            dbc.escape(user_role) +
+            ", " +
+            dbc.escape(user.profile.firstName) +
+            ", " +
+            dbc.escape(user.profile.lastName) +
+            ", " +
+            dbc.escape(user.profile.lastName + user.profile.firstName) +
+            ");";
           dbc.query(insertUser, function (err) {
             if (err) console.log(err);
             resolve(true);
@@ -162,4 +160,32 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
   });
 };
 
-module.exports = {  getAllAppRoles, getAllOktaUsers, getUserIsSuper, getUserProfile };
+const setAppRole = (oktaUser, appRole) => {
+  let dbName = process.env.DBNAME || "projector_dev";
+  let query =
+    "UPDATE " +
+    dbName +
+    ".user_extra " +
+    "SET user_role = " +
+    dbc.escape(appRole) +
+    "WHERE okta_id = " +
+    dbc.escape(oktaUser) +
+    ";";
+  return new Promise((resolve, reject) => {
+    dbc.query(query, function (err, _) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      resolve("OK");
+    });
+  });
+};
+
+module.exports = {
+  getAllAppRoles,
+  getAllOktaUsers,
+  getUserIsSuper,
+  getUserProfile,
+  setAppRole,
+};

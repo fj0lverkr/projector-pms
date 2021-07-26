@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 
 //Post to admin root page
 router.post("/ajax", (req, res) => {
-  console.log("posting to /admin/ " + JSON.stringify(req.body));
+  console.log("posting to /admin/ajax: " + JSON.stringify(req.body));
   switch (req.body.action) {
     case "updateRole":
       userData.setAppRole(req.body.userId, req.body.roleId).then((result) => {

@@ -8,6 +8,9 @@ $(".roleSelect").change(function () {
     function (data) {
       //add a visual element to show the action succeeded or failed
       console.log(data);
+      if (data === "OK") {
+          toaster("success", "Role was modified.");
+      }
     }
   );
 });

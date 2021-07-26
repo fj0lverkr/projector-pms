@@ -19,6 +19,9 @@ mixin userProfileList(u, users, roles)
 block variables
     - var title = "Admin dashboard"
 
+block stylesheets
+    link(rel="stylesheet", href="/javascripts/plugins/toast/jquery.toast.min.css")
+
 block content
     .display-5.border-bottom.ps-5.mx-3 #{title} 
     .row.justify-content-evenly.pt-5.mx-2.pb-2.border-bottom

@@ -10,6 +10,9 @@ mixin userVariables(vars)
 block variables
     - var title = 'Profile'
 
+block scripts
+    script(src="/javascripts/profile.js")
+
 block content
     if user.id != profileUser.id
         .display-5.border-bottom.ps-5.mx-3
@@ -47,6 +50,8 @@ block content
                                 a(href="mailto:" + profileUser.profile.secondEmail) #{profileUser.profile.secondEmail}
                         unless !profileUser.profile.mobilePhone
                             li Mobile phone: #{profileUser.profile.mobilePhone}
+                        li Reset password: 
+                            a(href="/" id="resetPassword" user=profileUser.id) click here
 
         .col-sm-4
             +userVariables(profileUser)

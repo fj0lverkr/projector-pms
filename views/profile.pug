@@ -16,13 +16,13 @@ block content
             span.
                 Profile for 
             span.text-muted #{profileUser.profile.firstName} #{profileUser.profile.lastName} 
-            if userIsSuper == 1
+            if profileRoleSuper == 1
                 sup
                     i.fas.fa-crown(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
             
     else
         .display-5.border-bottom.ps-5.mx-3 Your profile 
-            if userIsSuper == 1
+            if profileRoleSuper == 1
                 sup
                     i.fas.fa-crown(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
 
@@ -37,6 +37,7 @@ block content
                     h5.card-title.
                         Personal info:
                     ul.list-unstyled
+                        li Role: #{profileRoleName}
                         li First name: #{profileUser.profile.firstName}
                         li Last name: #{profileUser.profile.lastName}
                         li E-mail: 

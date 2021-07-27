@@ -44,7 +44,8 @@ const renderProfile = (res, oktaUser, extraInfo) => {
   res.render("profile", {
     profileUser: oktaUser,
     profilePicture: extraInfo.profile_picture,
-      profileRoleName: extraInfo.role_name
+    profileRoleName: extraInfo.role_name,
+    profileRoleSuper: extraInfo.role_super
   });
 };
 

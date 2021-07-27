@@ -44,12 +44,13 @@ body {
   font-family: "Overpass", sans-serif;
 }
 
-.fa-crown {
+.state-icon {
     font-size: initial;
     color: var(--soft-gold);
+    margin-right: 0.5rem;
 }
 
-.fa-crown:hover {
+.state-icon:hover {
     color: var(--rose-gold);
 }
 

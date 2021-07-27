@@ -78,7 +78,7 @@ const getUserIsSuper = (okta_id) => {
 const getUserProfile = (okta_id) => {
   let dbName = process.env.DBNAME || "projector_dev";
   let selectUserProfile =
-    "select UEX.profile_picture, ARO.name as role_name, ARO.superUser as role_super from " +
+    "select UEX.profile_picture, UEX.alias, ARO.name as role_name, ARO.superUser as role_super from " +
     dbName +
     ".user_extra UEX inner join " +
     dbName +

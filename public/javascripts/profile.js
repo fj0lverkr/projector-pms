@@ -17,4 +17,9 @@ $(document).ready(function () {
       }
     );
   });
+
+    $("#toasterTest").click(function(e){
+        e.preventDefault();
+        toaster("info", "toast is working", "Toasted!");
+    });
 });

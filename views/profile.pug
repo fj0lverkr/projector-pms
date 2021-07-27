@@ -1,12 +1,5 @@
 extends layout
 
-mixin userVariables(vars)
-    ul
-        each val, key in vars
-            li= key + " : " + val
-                if (val && typeof val === 'object')
-                    +userVariables(val)
-
 block variables
     - var title = 'Profile'
 
@@ -58,4 +51,4 @@ block content
                                     a(href="/" id="resetPassword" user=profileUser.id) click here
 
         .col-sm-4
-            +userVariables(profileUser)
+            a(href="/" id="toasterTest") test toast

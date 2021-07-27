@@ -19,6 +19,9 @@ mixin userProfileList(u, users, roles)
 block variables
     - var title = "Admin dashboard"
 
+block scripts
+    script(src="/javascripts/admin.js")
+
 block stylesheets
     link(rel="stylesheet", href="/javascripts/plugins/toast/jquery.toast.min.css")
 
@@ -31,4 +34,3 @@ block content
         .col-6.border-start.py-2
             h2.display-6 Teams
     .row.justify-content-evenly.pb-5.mx-2.pt-2.border-top
-    script(src="/javascripts/admin.js")

@@ -45,9 +45,6 @@ block content
                             li Mobile phone: #{profileUser.profile.mobilePhone}
                         if userIsSuper
                             li Reset password: 
-                                if profileUser.status == "RECOVERY"
-                                    span pending...
-                                else
-                                    a(href="/" id="resetPassword" user=profileUser.id) click here
+                                a(href="/" id="resetPassword" user=profileUser.id) click here
 
-        .col-sm-4
+        .col-sm-4 #{profileUser.status}

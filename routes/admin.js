@@ -1,11 +1,8 @@
 const express = require("express");
-const https = require("https");
-const dotenv = require("dotenv");
 const router = express.Router();
 
 const userData = require("../util/userData");
-
-dotenv.config();
+const oPoster = require("../util/oktaPost");
 
 //Admin root page
 router.get("/", (req, res) => {
@@ -35,29 +32,12 @@ router.post("/users-ajax", (req, res) => {
       });
       break;
     case "resetPassword":
-      const data = JSON.stringify({ sendEmail: "true" });
-      const options = {
-        hostname: process.env.OKTAORGURL.split("//", 2)[1],
-        port: 443,
-        path: "/api/v1/users/" + req.body.userId + "/lifecycle/reset_password",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "SSWS " + process.env.OKTATOKEN,
-        },
-      };
-      const postreq = https.request(options, (postres) => {
-        postres.on("data", () => {
-          res.send("OK");
-        });
+      let data = JSON.stringify({ sendEmail: "true" });
+      let path =
+        "/api/v1/users/" + req.body.userId + "/lifecycle/reset_password";
+      oPoster.oktaPost(data, path).then((result) => {
+        res.send(result);
       });
-      postreq.on("error", (e) => {
-        console.log("reset password error: " + e);
-        res.send(e);
-      });
-      postreq.write(data);
-      postreq.end();
       break;
     default:
       res.render("/");

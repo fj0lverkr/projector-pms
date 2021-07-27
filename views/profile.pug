@@ -50,8 +50,12 @@ block content
                                 a(href="mailto:" + profileUser.profile.secondEmail) #{profileUser.profile.secondEmail}
                         unless !profileUser.profile.mobilePhone
                             li Mobile phone: #{profileUser.profile.mobilePhone}
-                        li Reset password: 
-                            a(href="/" id="resetPassword" user=profileUser.id) click here
+                        if userIsSuper
+                            li Reset password: 
+                                if profileUser.status == "RECOVERY"
+                                    span pending...
+                                else
+                                    a(href="/" id="resetPassword" user=profileUser.id) click here
 
         .col-sm-4
             +userVariables(profileUser)

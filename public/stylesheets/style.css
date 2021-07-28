@@ -69,7 +69,7 @@ body {
   color: var(--vanilla-grey);
 }
 
-a.extra-nav {
+a.extra-nav, a.extra-nav:visited {
   color: var(--vanilla-grey);
   font-weight: 200;
 }
@@ -79,7 +79,7 @@ a.extra-nav:hover {
   font-weight: 200;
 }
 
-a.no-underline {
+a.no-underline, a.no-underline:visited {
   text-decoration: none;
 }
 
@@ -99,7 +99,7 @@ footer {
   font-weight: 200;
 }
 
-footer a {
+footer a, footer a:visited {
   color: var(--vanilla-grey);
   text-decoration: none;
 }

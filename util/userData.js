@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const imageToBase64 = require("image-to-base64");
 const dbc = require("../data/db");
 const oktaClient = require("../util/oktaClient");
+const UserAlias = require("../util/user-alias");
 
 dotenv.config();
 
@@ -114,6 +115,7 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
     oktaClient.getUser(okta_id).then((user) => {
       imageToBase64(process.env.GENAVATAR)
         .then((response) => {
+          let userAlias = new UserAlias().alias;
           var insertUser =
             "insert into " +
             dbName +
@@ -128,7 +130,7 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
             ", " +
             dbc.escape(user.profile.lastName) +
             ", " +
-            dbc.escape(user.profile.lastName + user.profile.firstName) +
+            dbc.escape(userAlias) +
             ");";
           dbc.query(insertUser, function (err) {
             if (err) console.log(err);
@@ -149,7 +151,7 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
             ", " +
             dbc.escape(user.profile.lastName) +
             ", " +
-            dbc.escape(user.profile.lastName + user.profile.firstName) +
+            dbc.escape(userAlias) +
             ");";
           dbc.query(insertUser, function (err) {
             if (err) console.log(err);

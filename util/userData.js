@@ -110,54 +110,86 @@ const getUserProfile = (okta_id) => {
   });
 };
 
+const getUserAliasIsUnique = (alias) => {
+  let dbName = process.env.DBNAME || "projector_dev";
+  alias = alias.toLowerCase();
+  let q =
+    "SELECT okta_id FROM " +
+    dbName +
+    ".user_extra WHERE LOWER(alias) = " +
+    dbc.escape(alias) +
+    " LIMIT 1;";
+  return new Promise((resolve, reject) => {
+    dbc.query(q, function (err, result) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      if (result === []) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  });
+};
+
 const setupUserExtraData = (dbName, okta_id, user_role) => {
   return new Promise((resolve) => {
     oktaClient.getUser(okta_id).then((user) => {
-      imageToBase64(process.env.GENAVATAR)
-        .then((response) => {
-          let userAlias = new UserAlias().alias;
-          var insertUser =
-            "insert into " +
-            dbName +
-            ".user_extra(okta_id, profile_picture, user_role, first_name, last_name, alias) values (" +
-            dbc.escape(okta_id) +
-            ", " +
-            dbc.escape(response) +
-            ", " +
-            dbc.escape(user_role) +
-            ", " +
-            dbc.escape(user.profile.firstName) +
-            ", " +
-            dbc.escape(user.profile.lastName) +
-            ", " +
-            dbc.escape(userAlias) +
-            ");";
-          dbc.query(insertUser, function (err) {
-            if (err) console.log(err);
-            resolve(true);
-          });
-        })
-        .catch((err) => {
-          console.error(err);
-          var insertUser =
-            "insert into " +
-            dbName +
-            ".user_extra(okta_id, user_role, first_name, last_name, alias) values (" +
-            dbc.escape(okta_id) +
-            ", " +
-            dbc.escape(user_role) +
-            ", " +
-            dbc.escape(user.profile.firstName) +
-            ", " +
-            dbc.escape(user.profile.lastName) +
-            ", " +
-            dbc.escape(userAlias) +
-            ");";
-          dbc.query(insertUser, function (err) {
-            if (err) console.log(err);
-            resolve(true);
-          });
-        });
+      let userAlias = new UserAlias().alias;
+      getUserAliasIsUnique(userAlias).then((isUnique) => {
+        if (isUnique) {
+          imageToBase64(process.env.GENAVATAR)
+            .then((response) => {
+              var insertUser =
+                "insert into " +
+                dbName +
+                ".user_extra(okta_id, profile_picture, user_role, first_name, last_name, alias) values (" +
+                dbc.escape(okta_id) +
+                ", " +
+                dbc.escape(response) +
+                ", " +
+                dbc.escape(user_role) +
+                ", " +
+                dbc.escape(user.profile.firstName) +
+                ", " +
+                dbc.escape(user.profile.lastName) +
+                ", " +
+                dbc.escape(userAlias) +
+                ");";
+              dbc.query(insertUser, function (err) {
+                if (err) console.log(err);
+                resolve(true);
+              });
+            })
+            .catch((err) => {
+              console.error(err);
+              var insertUser =
+                "insert into " +
+                dbName +
+                ".user_extra(okta_id, user_role, first_name, last_name, alias) values (" +
+                dbc.escape(okta_id) +
+                ", " +
+                dbc.escape(user_role) +
+                ", " +
+                dbc.escape(user.profile.firstName) +
+                ", " +
+                dbc.escape(user.profile.lastName) +
+                ", " +
+                dbc.escape(userAlias) +
+                ");";
+              dbc.query(insertUser, function (err) {
+                if (err) console.log(err);
+                resolve(true);
+              });
+            });
+        } else {
+            setupUserExtraData(dbName, okta_id, user_role).then(() => {
+                resolve(true);
+            });
+        }
+      });
     });
   });
 };
@@ -189,5 +221,6 @@ module.exports = {
   getAllOktaUsers,
   getUserIsSuper,
   getUserProfile,
+  getUserAliasIsUnique,
   setAppRole,
 };

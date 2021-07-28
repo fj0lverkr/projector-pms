@@ -45,13 +45,13 @@ body {
 }
 
 .state-icon {
-    font-size: initial;
-    color: var(--soft-gold);
-    margin-right: 0.5rem;
+  font-size: initial;
+  color: var(--soft-gold);
+  margin-right: 0.5rem;
 }
 
 .state-icon:hover {
-    color: var(--rose-gold);
+  color: var(--rose-gold);
 }
 
 .navbar,
@@ -77,6 +77,21 @@ a.extra-nav {
 a.extra-nav:hover {
   color: var(--simpler-lime-green);
   font-weight: 200;
+}
+
+a.no-underline {
+  text-decoration: none;
+}
+
+a.no-underline:hover {
+  text-decoration: underline;
+}
+i.clickable {
+  color: var(--rose-gold);
+}
+
+i.clickable:hover {
+  color: var(--soft-gold);
 }
 
 footer {
@@ -139,6 +154,18 @@ ol.nestedOl ol li:before {
 .btn-primary:hover {
   background-color: var(--vanilla-grey);
   color: var(--scuffed-dark-grey);
+  border-color: var(--scuffed-dark-grey);
+}
+
+.btn-outline-primary {
+  background-color: var(--vanilla-grey);
+  color: var(--scuffed-dark-grey);
+  border-color: var(--scuffed-dark-grey);
+}
+
+.btn-outline-primary:hover {
+  color: var(--vanilla-grey);
+  background-color: var(--scuffed-dark-grey);
   border-color: var(--scuffed-dark-grey);
 }
 

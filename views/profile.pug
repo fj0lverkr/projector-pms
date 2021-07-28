@@ -10,25 +10,36 @@ block stylesheets
     link(rel="stylesheet" href="/stylesheets/profile.css")
 
 block content
-    if user.id != profileUser.id
-        .display-5.border-bottom.ps-5.mx-3 
-            span.text-muted #{profileAlias}
-            span 's profile 
-            if profileRoleSuper == 1
-                sup
-                    i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
-            if profileUser.status == "RECOVERY"
-                sup
-                    i.fas.fa-plus-circle.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user pending recovery.")
+    .row.border-bottom.px-5.mx-3
+        .col-sm-8
+            if user.id != profileUser.id
+                .display-5 
+                    span.text-muted #{profileAlias}
+                    span 's profile 
+                    if profileRoleSuper == 1
+                        sup
+                            i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
+                    if profileUser.status == "RECOVERY"
+                        sup
+                            i.fas.fa-plus-circle.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user pending recovery.")
             
-    else
-        .display-5.border-bottom.ps-5.mx-3 Your profile 
-            if profileRoleSuper == 1
-                sup
-                    i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user us an admin.")
-            if profileUser.status == "RECOVERY"
-                sup
-                    i.fas.fa-plus-circle.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user pending recovery.")
+            else
+                .display-5 Your profile 
+                    if profileRoleSuper == 1
+                        sup
+                            i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user us an admin.")
+                    if profileUser.status == "RECOVERY"
+                        sup
+                            i.fas.fa-plus-circle.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user pending recovery.")
+        .col-sm-4.d-flex.align-items-center.justify-content-end
+            .btn-group        
+                if user.id != profileUser.id
+                    a.btn.btn-outline-primary(href="#" id="reportUser" user=profileUser.id) Report user
+                    if userIsSuper
+                        a.btn.btn-outline-primary(href="#" id="resetPassword" user=profileUser.id) Reset password
+                else
+                    a.btn.btn-outline-primary(href="#" id="changeUser" user=profileUser.id) Change password
+
 
     .row.gutters-sm.mx-5.mt-5.px-5
         .col-md-4.mb-3
@@ -44,10 +55,7 @@ block content
                             p.text-secondary.mb-1 [PLACEHOLDER] Senior Restroom Attendant
                             p.text-muted.font-size-sm [PLACEHOLDER] Brussels Area, Belgium
                             p.text-muted.font-size-sm 
-                                a.btn.btn-primary(href="mailto:" + profileUser.profile.email) e-mail
-                                if userIsSuper
-                                    span.mx-1
-                                    a.btn.btn-outline-primary(href="/" id="resetPassword" user=profileUser.id) Reset password
+                                a.btn.btn-primary(href="#" id="followUser" user=profileUser.id) Follow
             .card.mt-3
                 ul.list-group.list-group-flush
                     li.list-group-item.d-flex.justify-content-between.align-items-center.flex-wrap
@@ -56,12 +64,22 @@ block content
                                 circle(cx="12" cy="12" r="10")
                                 line(x1="2" y1="12" x2="22" y2="12")
                                 path(d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z") Website
-                        span.text-secondary https://bootdey.com
+                        a.no-underline.text-secondary(href="https://www.projector-pms.org" target="_blank").
+                            your website here
                     li.list-group-item.d-flex.justify-content-between.align-items-center.flex-wrap
                         h6.mb-0
                             svg(xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github mr-2 icon-inline")
                                 path(d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22") Github
-                        span.text-secondary bootdey
+                        a.no-underline.text-secondary(href="https://github.com/" + "fj0lverkr" target="_blank").
+                            Github Username
+                    li.list-group-item.d-flex.justify-content-between.align-items-center.flex-wrap
+                        h6.mb-0
+                            svg(xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2867b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin mr-2 icon-inline")
+                                path(d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z")
+                                rect(x="2" y="9" width="4" height="12")
+                                circle(cx="4" cy="4" r="2") LinkedIn
+                        a.no-underline.text-secondary(href="https://www.linkedin.com/in/" + "nilsnahooy" target="_blank").
+                            nilsnahooy
                     li.list-group-item.d-flex.justify-content-between.align-items-center.flex-wrap
                         h6.mb-0
                             svg(xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info")
@@ -80,34 +98,81 @@ block content
                                 path(d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z") Facebook
                         span.text-secondary bootdey
 
-        .col-md-8
-            .card.mb-3
-                .card-body
-                    .row
-                        .col-sm-3
-                            h6.mb-0 Alias
-                        .col-sm-9.text-secondary #{profileAlias}
-                    hr
-                    .row
-                        .col-sm-3
-                            h6.mb-0 Full Name
-                        .col-sm-9.text-secondary #{profileUser.profile.firstName} #{profileUser.profile.lastName}
-                    hr
-                    .row
-                        .col-sm-3
-                            h6.mb-0 Email
-                        .col-sm-9.text-secondary #{profileUser.profile.email}
-                    hr
-                    .row
-                        .col-sm-3
-                            h6.mb-0 Secondary email
-                        .col-sm-9.text-secondary #{profileUser.profile.secondaryEmail}
-                    hr
-                    .row
-                        .col-sm-3
-                            h6.mb-0 Mobile
-                        .col-sm-9.text-secondary #{profileUser.profile.mobilePhone}
-                    hr
-                    .row
-                        .col-sm-12
-                            a.btn.btn-primary(href="/" id="editProfile" user=profileUser.id) Edit
+        if user.id == profileUser.id
+            .col-md-8
+                .card.mb-3
+                    .card-body
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Alias
+                            .col-sm-8.text-secondary #{profileAlias}
+                            .col-sm-1.text-secondary.align-items-end.text-end
+                                i.fas.fa-edit.clickable
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 First name
+                            .col-sm-8.text-secondary #{profileUser.profile.firstName}
+                            .col-sm-1.text-secondary.align-items-end.text-end
+                                i.fas.fa-edit.clickable
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Last name
+                            .col-sm-8.text-secondary #{profileUser.profile.lastName}
+                            .col-sm-1.text-secondary.align-items-end.text-end
+                                i.fas.fa-edit.clickable
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Email
+                            .col-sm-8.text-secondary #{profileUser.profile.email}
+                            .col-sm-1.text-secondary.align-items-end.text-end
+                                i.fas.fa-edit.clickable
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Secondary email
+                            .col-sm-8.text-secondary #{profileUser.profile.secondaryEmail}
+                            .col-sm-1.text-secondary.align-items-end.text-end
+                                i.fas.fa-edit.clickable
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Mobile
+                            .col-sm-8.text-secondary #{profileUser.profile.mobilePhone}
+                            .col-sm-1.text-secondary.align-items-end.text-end
+                                i.fas.fa-edit.clickable
+        else                                
+            .col-md-8
+                .card.mb-3
+                    .card-body
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Alias
+                            .col-sm-9.text-secondary #{profileAlias}
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 First name
+                            .col-sm-9.text-secondary #{profileUser.profile.firstName}
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Last name
+                            .col-sm-9.text-secondary #{profileUser.profile.lastName}
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Email
+                            .col-sm-9.text-secondary #{profileUser.profile.email}
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Secondary email
+                            .col-sm-9.text-secondary #{profileUser.profile.secondaryEmail}
+                        hr
+                        .row
+                            .col-sm-3
+                                h6.mb-0 Mobile
+                            .col-sm-9.text-secondary #{profileUser.profile.mobilePhone}

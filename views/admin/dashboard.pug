@@ -2,19 +2,28 @@ extends ../layout
 
 mixin userProfileList(u, users, roles)
     .list-group.container
+        .list-group-item.list-group-item-action
+            .row.px-0
+                .col-4 Alias
+                .col-4 Full name
+                .col-4.text-end Set role
         each user in users
             .list-group-item.list-group-item-action
                 .row.px-0
-                    .col-6
-                        a(href="../users/profile/" + user["okta_id"]) #{user["alias"]}
-                    .col-6.text-end
-                        - if(u.id != user["okta_id"])
-                            select.roleSelect(name="roleSelect" id="roleUser=" + user["okta_id"])
+                    .col-4
+                        a(href="../users/profile/" + user.okta_id) #{user.alias}
+                    .col-4
+                        span.text-secondary #{user.first_name} #{user.last_name}
+                    .col-4.text-end
+                        - if(u.id != user.okta_id)
+                            select.roleSelect(name="roleSelect" id="roleUser=" + user.okta_id)
                                 each role in roles
-                                    - if(role["idapp_roles"] == user["user_role"])
-                                        option(value=role["idapp_roles"] selected) #{role["name"]}
+                                    - if(role.idapp_roles == user.user_role)
+                                        option(value=role.idapp_roles selected) #{role.name}
                                     - else
-                                        option(value=role["idapp_roles"]) #{role["name"]}
+                                        option(value=role.idapp_roles) #{role.name}
+                        - else
+                            span.text-secondary You are here
 
 block variables
     - var title = "Admin dashboard"

@@ -40,7 +40,7 @@ router.post("/users-ajax", (req, res) => {
       });
       break;
     default:
-      res.render("/");
+      res.send("Invalid action '" + req.body.action + "'");
   }
 });
 module.exports = router;

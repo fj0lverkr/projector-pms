@@ -105,9 +105,18 @@ block content
                         .row
                             .col-sm-3
                                 h6.mb-0 Alias
-                            .col-sm-8.text-secondary #{profileAlias}
+                            .col-sm-8.text-secondary 
+                                span(id="profileAlias") #{profileAlias}
+                                .hidden(id="input-groupAlias")
+                                    .input-group
+                                        .input-group-prepend
+                                            span.input-group-text(id="basic-alias") @
+                                        input.form-control(id="inputAlias" type="text" placeholder="alias" aria-label="alias" aria-describedby="basic-alias") 
                             .col-sm-1.text-secondary.align-items-end.text-end
-                                i.fas.fa-edit.clickable
+                                a(href="#" id="toggleEditAlias")
+                                    i.fas.fa-edit.clickable
+                                a.hidden(href="#" id="saveEditAlias" user=profileUser.id)
+                                    i.fas.fa-save.clickable
                         hr
                         .row
                             .col-sm-3

@@ -125,10 +125,46 @@ const getUserAliasIsUnique = (alias) => {
         console.log(err);
         reject(err);
       }
-      if (result === []) {
+      if (result && result.length > 0) {
         resolve(false);
       } else {
         resolve(true);
+      }
+    });
+  });
+};
+
+const updateUserAlias = (okta_id, newAlias) => {
+  let dbName = process.env.DBNAME || "projector_dev";
+  let q =
+    "UPDATE " +
+    dbName +
+    ".user_extra SET alias = " +
+    dbc.escape(newAlias) +
+    "WHERE okta_id = " +
+    dbc.escape(okta_id) +
+    ";";
+  return new Promise((resolve, reject) => {
+    getUserAliasIsUnique(newAlias).then((isUnique) => {
+      if (!isUnique) {
+        resolve({
+          success: false,
+          reason: "Alias already in use by other user.",
+        });
+      } else {
+        dbc.query(q, function (err, _) {
+          if (err) {
+            console.log(err);
+            reject({
+              success: false,
+              reason: "Mysql error while saving alias.",
+            });
+          }
+          resolve({
+            success: true,
+            reason: "New alias saved succesfully.",
+          });
+        });
       }
     });
   });
@@ -185,9 +221,9 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
               });
             });
         } else {
-            setupUserExtraData(dbName, okta_id, user_role).then(() => {
-                resolve(true);
-            });
+          setupUserExtraData(dbName, okta_id, user_role).then(() => {
+            resolve(true);
+          });
         }
       });
     });
@@ -223,4 +259,5 @@ module.exports = {
   getUserProfile,
   getUserAliasIsUnique,
   setAppRole,
+  updateUserAlias,
 };

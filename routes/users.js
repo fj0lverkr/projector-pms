@@ -40,6 +40,38 @@ router.get("/profile/:userId", (req, res) => {
     });
 });
 
+/***
+Ajax related routes, make sure to check if the user doing the POST is allowed to.
+***/
+
+router.post("/ajax", (req, res) => {
+  if (!req.userContext) {
+    res.send({
+      success: false,
+      reason: "401 Unauthized",
+    });
+  }
+  switch (req.body.action) {
+    case "updateAlias":
+      if (
+        req.body.newAlias == "" ||
+        req.body.newAlias.toLowerCase() === req.body.oldAlias.toLowerCase()
+      ) {
+        res.send({ success: false, reason: "" });
+      } else {
+        userData
+          .updateUserAlias(req.user.id, req.body.newAlias)
+          .then((result) => {
+            res.send(result);
+          });
+      }
+      break;
+    default:
+      res.send("Invalid action '" + req.body.action + "'");
+      break;
+  }
+});
+
 const renderProfile = (res, oktaUser, extraInfo) => {
   res.render("profile", {
     profileUser: oktaUser,

@@ -93,13 +93,6 @@ router.post("/ajax", (req, res) => {
               userData
                 .updateUserSimpleField(req.user.id, "firstName", newFirstName)
                 .then((sqlResult) => {
-                  req.user.profile.firstName = newFirstName;
-                  res.locals.user.profile.firstName = newFirstName;
-                  console.log(
-                    req.user.profile.firstName +
-                      ", " +
-                      res.locals.user.profile.firstName
-                  );
                   res.send(sqlResult);
                 })
                 .catch((sqlErr) => {

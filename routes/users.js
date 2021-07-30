@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userData = require("../util/userData");
 const oktaClient = require("../util/oktaClient");
+const oktaPoster = require("../util/oktaPost");
 
 //User logout (other routes are defined by OIDC middleware)
 router.get("/logout", (req, res) => {
@@ -18,6 +19,9 @@ router.get("/profile", (req, res) => {
   if (!req.userContext) {
     return res.status(401).render("unauthenticated");
   }
+  console.log(
+    req.user.profile.firstName + ", " + res.locals.user.profile.firstName
+  );
   userData.getUserProfile(req.user.id).then((data) => {
     renderProfile(res, req.user, data);
   });
@@ -54,7 +58,7 @@ router.post("/ajax", (req, res) => {
   switch (req.body.action) {
     case "updateAlias":
       if (
-        req.body.newAlias == "" ||
+        req.body.newAlias === "" ||
         req.body.newAlias.toLowerCase() === req.body.oldAlias.toLowerCase()
       ) {
         res.send({ success: false, reason: "" });
@@ -63,6 +67,58 @@ router.post("/ajax", (req, res) => {
           .updateUserAlias(req.user.id, req.body.newAlias)
           .then((result) => {
             res.send(result);
+          });
+      }
+      break;
+    case "updateFirstName":
+      if (
+        req.body.newLastName === "" ||
+        req.body.newFirstName === req.body.oldLastName
+      ) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newFirstName = req.body.newFirstName;
+        let data = JSON.stringify({
+          profile: { firstName: newFirstName },
+        });
+        let path = "/api/v1/users/" + req.user.id;
+        oktaPoster
+          .oktaPost(data, path)
+          .then((result) => {
+            if (
+              result &&
+              result.profile &&
+              result.profile.firstName === newFirstName
+            ) {
+              userData
+                .updateUserSimpleField(req.user.id, "firstName", newFirstName)
+                .then((sqlResult) => {
+                  req.user.profile.firstName = newFirstName;
+                  res.locals.user.profile.firstName = newFirstName;
+                  console.log(
+                    req.user.profile.firstName +
+                      ", " +
+                      res.locals.user.profile.firstName
+                  );
+                  res.send(sqlResult);
+                })
+                .catch((sqlErr) => {
+                  console.log(sqlErr);
+                  res.send({ success: false, reason: sqlErr });
+                });
+            } else {
+              res.send({
+                success: false,
+                reason: "Error saving first name to Okta.",
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            res.send({
+              success: false,
+              reason: "Error saving first name to Okta.",
+            });
           });
       }
       break;

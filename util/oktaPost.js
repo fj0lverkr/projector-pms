@@ -17,8 +17,12 @@ const oktaPost = (data, path) => {
   };
   return new Promise((resolve, reject) => {
     const postreq = https.request(options, (postres) => {
-      postres.on("data", () => {
-        resolve("OK");
+      let resData = "";
+      postres.on("data", (chunk) => {
+        resData += chunk;
+      });
+      postres.on("end", () => {
+        resolve(JSON.parse(resData));
       });
     });
     postreq.on("error", (e) => {

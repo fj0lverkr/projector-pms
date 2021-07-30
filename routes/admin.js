@@ -35,8 +35,8 @@ router.post("/users-ajax", (req, res) => {
       let data = JSON.stringify({ sendEmail: "true" });
       let path =
         "/api/v1/users/" + req.body.userId + "/lifecycle/reset_password";
-      oPoster.oktaPost(data, path).then((result) => {
-        res.send(result);
+      oPoster.oktaPost(data, path).then((_) => {
+        res.send("OK");
       });
       break;
     default:

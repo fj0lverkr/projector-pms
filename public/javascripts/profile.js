@@ -53,4 +53,41 @@ $(document).ready(function () {
       }
     );
   });
+
+  // Set first name field editable
+  $("#toggleEditFirstName").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#inputFirstName").val($("#profileFirstName").text());
+    $("#profileFirstName").hide();
+    $("#saveEditFirstName").show();
+    $("#input-groupFirstName").show();
+  });
+
+  // Save first name field
+  $("#saveEditFirstName").click(function (e) {
+    e.preventDefault();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateFirstName",
+        oldFirstName: $("#profileFirstName").text(),
+        newFirstName: $("#inputFirstName").val(),
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileFirstName").text($("#inputFirstName").val());
+          }
+          $("#saveEditFirstName").hide();
+          $("#input-groupFirstName").hide();
+          $("#profileFirstName").show();
+          $("#toggleEditFirstName").show();
+        } else {
+          toaster("error", data.reason);
+        }
+      }
+    );
+  });
 });

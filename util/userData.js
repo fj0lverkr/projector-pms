@@ -170,6 +170,34 @@ const updateUserAlias = (okta_id, newAlias) => {
   });
 };
 
+const updateUserSimpleField = (okta_id, field, value) => {
+  let dbName = process.env.DBNAME || "projector_dev";
+  return new Promise((resolve, reject) => {
+    switch (field) {
+      case "firstName":
+        let q =
+          "UPDATE " +
+          dbName +
+          ".user_extra SET first_name = " +
+          dbc.escape(value) +
+          " WHERE okta_id = " +
+          dbc.escape(okta_id) +
+          ";";
+        dbc.query(q, function (err, _) {
+          if (err) {
+            console.log(err);
+            reject("Mysql error on saving " + field + ": " + value);
+          }
+          resolve({ success: true, reason: "First name updated." });
+        });
+        break;
+      default:
+        reject("Unknown field to update.");
+        break;
+    }
+  });
+};
+
 const setupUserExtraData = (dbName, okta_id, user_role) => {
   return new Promise((resolve) => {
     oktaClient.getUser(okta_id).then((user) => {
@@ -260,4 +288,5 @@ module.exports = {
   getUserAliasIsUnique,
   setAppRole,
   updateUserAlias,
+  updateUserSimpleField,
 };

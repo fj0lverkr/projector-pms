@@ -121,9 +121,16 @@ block content
                         .row
                             .col-sm-3
                                 h6.mb-0 First name
-                            .col-sm-8.text-secondary #{profileUser.profile.firstName}
+                            .col-sm-8.text-secondary
+                                span(id="profileFirstName") #{profileUser.profile.firstName}
+                                .hidden(id="input-groupFirstName")
+                                    .input-group
+                                        input.form-control(id="inputFirstName" type ="text" placeholder="First name" aria-label="First name")
                             .col-sm-1.text-secondary.align-items-end.text-end
-                                i.fas.fa-edit.clickable
+                                a(href="#" id="toggleEditFirstName")
+                                    i.fas.fa-edit.clickable
+                                a.hidden(href="#" id="saveEditFirstName" user=profileUser.id)
+                                    i.fas.fa-save.clickable
                         hr
                         .row
                             .col-sm-3

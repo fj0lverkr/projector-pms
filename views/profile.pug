@@ -27,7 +27,7 @@ block content
                 .display-5 Your profile 
                     if profileRoleSuper == 1
                         sup
-                            i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user us an admin.")
+                            i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user is an admin.")
                     if profileUser.status == "RECOVERY"
                         sup
                             i.fas.fa-plus-circle.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user pending recovery.")
@@ -123,6 +123,7 @@ block content
                                     i.fas.fa-edit.clickable
                                 a.hidden(href="#" id="saveEditAlias" user=profileUser.id)
                                     i.fas.fa-save.clickable
+                                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="aliasSpinner")
                         hr
                         .row
                             .col-sm-3
@@ -137,6 +138,7 @@ block content
                                     i.fas.fa-edit.clickable
                                 a.hidden(href="#" id="saveEditFirstName" user=profileUser.id)
                                     i.fas.fa-save.clickable
+                                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="firstNameSpinner")
                         hr
                         .row
                             .col-sm-3
@@ -151,6 +153,7 @@ block content
                                     i.fas.fa-edit.clickable
                                 a.hidden(href="#" id="saveEditLastName" user=profileUser.id)
                                     i.fas.fa-save.clickable
+                                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="lastNameSpinner")
                         hr
                         .row
                             .col-sm-3

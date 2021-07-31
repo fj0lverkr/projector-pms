@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  $(".ld").each(function () {
+    $(this).hide();
+  });
   // Handle password recovery click event
   $("#resetPassword").click(function (e) {
     e.preventDefault();
@@ -30,6 +33,9 @@ $(document).ready(function () {
   // Save alias field
   $("#saveEditAlias").click(function (e) {
     e.preventDefault();
+    $("#inputAlias").prop("disabled", true);
+    $("#saveEditAlias").hide();
+    $("#aliasSpinner").show();
     $.post(
       "../../users/ajax",
       {
@@ -43,10 +49,12 @@ $(document).ready(function () {
             toaster("success", data.reason);
             $("#profileAlias").text($("#inputAlias").val());
           }
+          $("#aliasSpinner").hide();
           $("#saveEditAlias").hide();
           $("#input-groupAlias").hide();
           $("#profileAlias").show();
           $("#toggleEditAlias").show();
+          $("#inputAlias").prop("disabled", false);
         } else {
           toaster("error", data.reason);
         }
@@ -68,6 +76,9 @@ $(document).ready(function () {
   $("#saveEditFirstName").click(function (e) {
     let newFirstName = $("#inputFirstName").val();
     e.preventDefault();
+    $("#inputFirstName").prop("disabled", true);
+    $("#saveEditFirstName").hide();
+    $("#firstNameSpinner").show();
     $.post(
       "../../users/ajax",
       {
@@ -83,10 +94,11 @@ $(document).ready(function () {
           }
           $("span#navbarFirstName").text(newFirstName);
           $("#titleFirstName").text(newFirstName);
-          $("#saveEditFirstName").hide();
+          $("#firstNameSpinner").hide();
           $("#input-groupFirstName").hide();
           $("#profileFirstName").show();
           $("#toggleEditFirstName").show();
+          $("#inputFirstName").prop("disabled", false);
         } else {
           toaster("error", data.reason);
         }
@@ -108,6 +120,9 @@ $(document).ready(function () {
   $("#saveEditLastName").click(function (e) {
     let newLastName = $("#inputLastName").val();
     e.preventDefault();
+    $("#inputLastName").prop("disabled", true);
+    $("#saveEditLastName").hide();
+    $("#lastNameSpinner").show();
     $.post(
       "../../users/ajax",
       {
@@ -123,10 +138,12 @@ $(document).ready(function () {
           }
           $("span#navbarLastName").text(newLastName);
           $("#titleLastName").text(newLastName);
+          $("#lastNameSpinner").hide();
           $("#saveEditLastName").hide();
           $("#input-groupLastName").hide();
           $("#profileLastName").show();
           $("#toggleEditLastName").show();
+          $("#inputLastName").prop("disabled", false);
         } else {
           toaster("error", data.reason);
         }

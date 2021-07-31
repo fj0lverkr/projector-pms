@@ -58,13 +58,13 @@ html(lang="en")
                                                 a.dropdown-item(href=val) #{key}
                             li.nav-item.d-inline.d-lg-none
                                 a.nav-link.extra-nav(href="/users/profile")
-                                    span(id="headerFirstName") #{user.profile.firstName}
-                                    span(id="headerLastName")  #{user.profile.lastName} 
+                                    span(id="navbarFirstName") #{user.profile.firstName}
+                                    span(id="navbarLastName")  #{user.profile.lastName} 
                             li.nav-item.d-inline.d-lg-none
                                 a.nav-link.extra-nav(href="/users/logout") Logout
                     a.nav-link.extra-nav.d-none.d-lg-inline(href="/users/profile")
-                        span(id="headerFirstName") #{user.profile.firstName}
-                        span(id="headerLastName")  #{user.profile.lastName} 
+                        span(id="navbarFirstName") #{user.profile.firstName}
+                        span(id="navbarLastName")  #{user.profile.lastName} 
                     a.nav-link.extra-nav.d-none.d-lg-inline(href="/users/logout") Logout
                 else
                     a.nav-link.extra-nav(href="/users/login") Log In

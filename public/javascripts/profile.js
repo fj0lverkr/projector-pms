@@ -66,20 +66,23 @@ $(document).ready(function () {
 
   // Save first name field
   $("#saveEditFirstName").click(function (e) {
+    let newFirstName = $("#inputFirstName").val();
     e.preventDefault();
     $.post(
       "../../users/ajax",
       {
         action: "updateFirstName",
         oldFirstName: $("#profileFirstName").text(),
-        newFirstName: $("#inputFirstName").val(),
+        newFirstName: newFirstName,
       },
       function (data) {
         if (data.success === true || data.reason === "") {
           if (data.success === true) {
             toaster("success", data.reason);
-            $("#profileFirstName").text($("#inputFirstName").val());
+            $("#profileFirstName").text(newFirstName);
           }
+          $("span#navbarFirstName").text(newFirstName);
+          $("#titleFirstName").text(newFirstName);
           $("#saveEditFirstName").hide();
           $("#input-groupFirstName").hide();
           $("#profileFirstName").show();

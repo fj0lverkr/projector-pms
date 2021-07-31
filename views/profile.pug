@@ -51,7 +51,12 @@ block content
                         else
                             img.rounded-circle(src="data:image/png;base64," + profilePicture width="150")
                         .mt-3
-                            h4 #{profileUser.profile.firstName} #{profileUser.profile.lastName}
+                            h4 
+                                span(id="titleFirstName").
+                                    #{profileUser.profile.firstName}
+                                span &nbsp;
+                                span(id="titleLastName").
+                                    #{profileUser.profile.lastName}
                             p.text-secondary.mb-1 [PLACEHOLDER] Senior Restroom Attendant
                             p.text-muted.font-size-sm [PLACEHOLDER] Brussels Area, Belgium
                             p.text-muted.font-size-sm 

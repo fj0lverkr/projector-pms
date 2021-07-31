@@ -172,29 +172,34 @@ const updateUserAlias = (okta_id, newAlias) => {
 
 const updateUserSimpleField = (okta_id, field, value) => {
   let dbName = process.env.DBNAME || "projector_dev";
-  return new Promise((resolve, reject) => {
-    switch (field) {
-      case "firstName":
-        let q =
-          "UPDATE " +
-          dbName +
-          ".user_extra SET first_name = " +
-          dbc.escape(value) +
-          " WHERE okta_id = " +
-          dbc.escape(okta_id) +
-          ";";
-        dbc.query(q, function (err, _) {
-          if (err) {
-            console.log(err);
-            reject("Mysql error on saving " + field + ": " + value);
-          }
-          resolve({ success: true, reason: "First name updated." });
-        });
-        break;
-      default:
-        reject("Unknown field to update.");
-        break;
+  let fieldWords = field.split("_");
+  fieldWords[0] = fieldWords[0][0].toUpperCase() + fieldWords[0].slice(1);
+  let fieldPrettyName = "";
+  for (let i in fieldWords) {
+    if (i < fieldWords.length - 1) {
+      fieldPrettyName += fieldWords[i] + " ";
+    } else {
+      fieldPrettyName += fieldWords[i];
     }
+  }
+  return new Promise((resolve, reject) => {
+    let q =
+      "UPDATE " +
+      dbName +
+      ".user_extra SET " +
+      field +
+      " = " +
+      dbc.escape(value) +
+      " WHERE okta_id = " +
+      dbc.escape(okta_id) +
+      ";";
+    dbc.query(q, function (err, _) {
+      if (err) {
+        console.log(err);
+        reject("Mysql error on saving " + fieldPrettyName + ": " + value);
+      }
+      resolve({ success: true, reason: fieldPrettyName + " updated." });
+    });
   });
 };
 

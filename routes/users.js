@@ -72,28 +72,50 @@ router.post("/ajax", (req, res) => {
       break;
     case "updateFirstName":
       if (
-        req.body.newLastName === "" ||
-        req.body.newFirstName === req.body.oldLastName
+        req.body.newFirstName === "" ||
+        req.body.newFirstName === req.body.oldFirstName
       ) {
         res.send({ success: false, reason: "" });
       } else {
         let newFirstName = req.body.newFirstName;
-              userData
-                .updateUserSimpleField(req.user.id, "firstName", newFirstName)
-                .then((sqlResult) => {
-                    oktaClient.getUser(req.user.id).then((oktaUser) => {
-                        oktaUser.profile.firstName = newFirstName;
-                        oktaUser.update().then(() => {
-                            req.user.profile.firstName = newFirstName;
-                            res.locals.user = req.user;
-                            res.send(sqlResult);
-                        });
-                    });
-                })
-                .catch((sqlErr) => {
-                  console.log(sqlErr);
-                  res.send({ success: false, reason: sqlErr });
-                });
+        userData
+          .updateUserSimpleField(req.user.id, "first_name", newFirstName)
+          .then((sqlResult) => {
+            oktaClient.getUser(req.user.id).then((oktaUser) => {
+              oktaUser.profile.firstName = newFirstName;
+              oktaUser.update().then(() => {
+                res.send(sqlResult);
+              });
+            });
+          })
+          .catch((sqlErr) => {
+            console.log(sqlErr);
+            res.send({ success: false, reason: sqlErr });
+          });
+      }
+      break;
+    case "updateLastName":
+      if (
+        req.body.newLastName === "" ||
+        req.body.newLastName === req.body.oldLastName
+      ) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newLastName = req.body.newLastName;
+        userData
+          .updateUserSimpleField(req.user.id, "last_name", newLastName)
+          .then((sqlResult) => {
+            oktaClient.getUser(req.user.id).then((oktaUser) => {
+              oktaUser.profile.lastName = newLastName;
+              oktaUser.update().then(() => {
+                res.send(sqlResult);
+              });
+            });
+          })
+          .catch((sqlErr) => {
+            console.log(sqlErr);
+            res.send({ success: false, reason: sqlErr });
+          });
       }
       break;
     default:

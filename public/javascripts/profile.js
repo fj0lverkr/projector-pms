@@ -93,4 +93,44 @@ $(document).ready(function () {
       }
     );
   });
+
+  // Set last name field editable
+  $("#toggleEditLastName").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#inputLastName").val($("#profileLastName").text());
+    $("#profileLastName").hide();
+    $("#saveEditLastName").show();
+    $("#input-groupLastName").show();
+  });
+
+  // Save last name field
+  $("#saveEditLastName").click(function (e) {
+    let newLastName = $("#inputLastName").val();
+    e.preventDefault();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateLastName",
+        oldLastName: $("#profileLastName").text(),
+        newLastName: newLastName,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileLastName").text(newLastName);
+          }
+          $("span#navbarLastName").text(newLastName);
+          $("#titleLastName").text(newLastName);
+          $("#saveEditLastName").hide();
+          $("#input-groupLastName").hide();
+          $("#profileLastName").show();
+          $("#toggleEditLastName").show();
+        } else {
+          toaster("error", data.reason);
+        }
+      }
+    );
+  });
 });

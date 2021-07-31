@@ -78,41 +78,22 @@ router.post("/ajax", (req, res) => {
         res.send({ success: false, reason: "" });
       } else {
         let newFirstName = req.body.newFirstName;
-        let data = JSON.stringify({
-          profile: { firstName: newFirstName },
-        });
-        let path = "/api/v1/users/" + req.user.id;
-        oktaPoster
-          .oktaPost(data, path)
-          .then((result) => {
-            if (
-              result &&
-              result.profile &&
-              result.profile.firstName === newFirstName
-            ) {
               userData
                 .updateUserSimpleField(req.user.id, "firstName", newFirstName)
                 .then((sqlResult) => {
-                  res.send(sqlResult);
+                    oktaClient.getUser(req.user.id).then((oktaUser) => {
+                        oktaUser.profile.firstName = newFirstName;
+                        oktaUser.update().then(() => {
+                            req.user.profile.firstName = newFirstName;
+                            res.locals.user = req.user;
+                            res.send(sqlResult);
+                        });
+                    });
                 })
                 .catch((sqlErr) => {
                   console.log(sqlErr);
                   res.send({ success: false, reason: sqlErr });
                 });
-            } else {
-              res.send({
-                success: false,
-                reason: "Error saving first name to Okta.",
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            res.send({
-              success: false,
-              reason: "Error saving first name to Okta.",
-            });
-          });
       }
       break;
     default:

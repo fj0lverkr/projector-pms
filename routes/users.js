@@ -3,7 +3,6 @@ const router = express.Router();
 
 const userData = require("../util/userData");
 const oktaClient = require("../util/oktaClient");
-const oktaPoster = require("../util/oktaPost");
 
 //User logout (other routes are defined by OIDC middleware)
 router.get("/logout", (req, res) => {
@@ -20,7 +19,9 @@ router.get("/profile", (req, res) => {
     return res.status(401).render("unauthenticated");
   }
   userData.getUserProfile(req.user.id).then((data) => {
-    renderProfile(res, req.user, data);
+    userData.getUserCountry().then((countryCode) => {
+      renderProfile(res, req.user, data, countryCode);
+    });
   });
 });
 
@@ -162,7 +163,28 @@ router.post("/ajax", (req, res) => {
               res.send({ success: true, reason: "Secondary email updated." });
             })
             .catch((e) => {
-              console.log(JSON.stringify(e));
+              res.send({
+                success: false,
+                reason:
+                  "Okta API error: " + e.errorCauses[0].errorSummary + ".",
+              });
+            });
+        });
+      }
+      break;
+    case "updateMobile":
+      if (req.body.newMobile === req.body.oldMobile) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newMobile = req.body.newMobile;
+        oktaClient.getUser(req.user.id).then((oktaUser) => {
+          oktaUser.profile.mobilePhone = newMobile;
+          oktaUser
+            .update()
+            .then(() => {
+              res.send({ success: true, reason: "Mobile phone updated." });
+            })
+            .catch((e) => {
               res.send({
                 success: false,
                 reason:
@@ -173,18 +195,22 @@ router.post("/ajax", (req, res) => {
       }
       break;
     default:
-      res.send("Invalid action '" + req.body.action + "'");
+      res.send({
+        success: false,
+        reason: "Invalid action '" + req.body.action + "'",
+      });
       break;
   }
 });
 
-const renderProfile = (res, oktaUser, extraInfo) => {
+const renderProfile = (res, oktaUser, extraInfo, countryCode = "") => {
   res.render("profile", {
     profileUser: oktaUser,
     profilePicture: extraInfo.profile_picture,
     profileRoleName: extraInfo.role_name,
     profileRoleSuper: extraInfo.role_super,
     profileAlias: extraInfo.alias,
+    profileCountry: countryCode,
   });
 };
 

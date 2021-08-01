@@ -4,9 +4,12 @@ block variables
     - var title = 'Profile'
 
 block scripts
+    script let cc = '#{profileCountry}';
     script(src="/javascripts/profile.js")
+    script(src=src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js")
 
 block stylesheets
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css")
     link(rel="stylesheet" href="/stylesheets/profile.css")
 
 block content
@@ -15,7 +18,7 @@ block content
             if user.id != profileUser.id
                 .display-5 
                     span.text-muted #{profileAlias}
-                    span 's profile 
+                    span 's profile
                     if profileRoleSuper == 1
                         sup
                             i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="I'm an admin!")
@@ -24,7 +27,7 @@ block content
                             i.fas.fa-plus-circle.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user pending recovery.")
             
             else
-                .display-5 Your profile 
+                .display-5 Your profile
                     if profileRoleSuper == 1
                         sup
                             i.fas.fa-crown.state-icon(data-bs-toggle="tooltip" data-bs-placement="right" title="user is an admin.")
@@ -188,9 +191,17 @@ block content
                         .row
                             .col-sm-3
                                 h6.mb-0 Mobile
-                            .col-sm-8.text-secondary #{profileUser.profile.mobilePhone}
+                            .col-sm-8.text-secondary
+                                span(id="#profileMobile") #{profileUser.profile.mobilePhone}
+                                .hidden(id="#input-groupMobile")
+                                    .input-group
+                                        input.form-control(id="inputMobile" type="tel" placeholder="Mobile phone number" aria-label="Mobile phone number")
                             .col-sm-1.text-secondary.align-items-end.text-end
-                                i.fas.fa-edit.clickable
+                                a(href="#" id="toggleEditMobile")
+                                    i.fas.fa-edit.clickable
+                                a.hidden(href="#" id="saveEditMobile")
+                                    i.fas.fa-save.clickable
+                                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="mobileSpinner")
         else                                
             .col-md-8
                 .card.mb-3
@@ -218,7 +229,7 @@ block content
                         .row
                             .col-sm-3
                                 h6.mb-0 Secondary email
-                            .col-sm-9.text-secondary #{profileUser.profile.secondaryEmail}
+                            .col-sm-9.text-secondary #{profileUser.profile.secondEmail}
                         hr
                         .row
                             .col-sm-3

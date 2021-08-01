@@ -5,6 +5,14 @@ $(document).ready(function () {
   $(".ld").each(function () {
     $(this).hide();
   });
+  const phoneInputField = document.querySelector("#inputMobile");
+  const phoneInput = window.intlTelInput(phoneInputField, {
+    preferredCountries: [],
+    initialCountry: cc,
+    utilsScript:
+      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+  });
+
   // Handle password recovery click event
   $("#resetPassword").click(function (e) {
     e.preventDefault();
@@ -268,6 +276,65 @@ $(document).ready(function () {
           $("#inputEmail2").prop("disabled", false);
           $("#email2Spinner").hide();
           $("#saveEditEmail2").show();
+        }
+      }
+    );
+  });
+
+  // Set mobile field editable
+  $("#toggleEditMobile").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    let profileField = document.getElementById("#profileMobile");
+    let fieldGroup = document.getElementById("#input-groupMobile");
+    phoneInput.setNumber(profileField.innerText);
+    profileField.style.display = "none";
+    $("#saveEditMobile").show();
+    fieldGroup.style.display = "block";
+  });
+
+  // Validate input
+  $("#inputMobile").keyup(function () {
+    if (phoneInput.isValidNumber() || $("#inputMobile").val() === "") {
+      $("#saveEditMobile").show();
+    } else {
+      $("#saveEditMobile").hide();
+    }
+  });
+
+  // Save secondary e-mail field
+  $("#saveEditMobile").click(function (e) {
+    let newMobile = phoneInput.getNumber();
+    let profileField = document.getElementById("#profileMobile");
+    let fieldGroup = document.getElementById("#input-groupMobile");
+    e.preventDefault();
+    $("#inputMobile").prop("disabled", true);
+    $("#saveEditMobile").hide();
+    $("#mobileSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateMobile",
+        oldMobile: $("#profileMobile").text(),
+        newMobile: newMobile,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            profileField.innerText = newMobile;
+          }
+          $("#mobileSpinner").hide();
+          $("#saveEditMobile").hide();
+          fieldGroup.style.display = "none";
+          profileField.style.display = "block";
+          $("#toggleEditMobile").show();
+          $("#inputMobile").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputMobile").prop("disabled", false);
+          $("#mobileSpinner").hide();
+          $("#saveEditMobile").show();
         }
       }
     );

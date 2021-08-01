@@ -14,7 +14,6 @@ const getUserCountry = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(JSON.stringify(resp));
         resolve(resp.country);
       })
       .catch(() => {

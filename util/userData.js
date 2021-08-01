@@ -6,6 +6,23 @@ const UserAlias = require("../util/user-alias");
 
 dotenv.config();
 
+const getUserCountry = () => {
+  let token = process.env.IPINFOTOKEN || "4f2cbc04adfd61";
+  return new Promise((resolve, reject) => {
+    fetch("https://ipinfo.io/json?token=" + token, {
+      headers: { Accept: "application/json" },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log(JSON.stringify(resp));
+        resolve(resp.country);
+      })
+      .catch(() => {
+        reject({ country: "us" });
+      });
+  });
+};
+
 const getAllAppRoles = () => {
   let dbName = process.env.DBNAME || "projector_dev";
   let query = "SELECT * FROM " + dbName + ".app_roles;";
@@ -286,6 +303,7 @@ const setAppRole = (oktaUser, appRole) => {
 };
 
 module.exports = {
+  getUserCountry,
   getAllAppRoles,
   getAllOktaUsers,
   getUserIsSuper,

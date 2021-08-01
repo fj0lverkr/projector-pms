@@ -6,7 +6,7 @@ After cloning this repo and optionally moving it to a suitable location follow t
 1. in a terminal, cd into the folder where you've cloned or moved the repo.
 2. run `npm install`, this should install all required packages (and assumes you have Node installed on the machine).
 3. copy template.env to just .env
-4. edit .env and set the values to reflect your environment. This requires having set up Okta (Google will help you here) and access to a MySQL server instance.
+4. edit .env and set the values to reflect your environment. This requires having set up Okta (Google will help you here) and access to a MySQL server instance. Additionally, a token from IPinfo.io is required. You'll get this after creating an account with them, the free tier allows up to 50K loopups/month.
 5. open the /install/projector.sql file and if you wish, change the database name on the first two lines.
 6. run the full file on your MySQL instance. **NOTE that this will drop all tables and recreates them, BACKUP DATA FIRST!**
 7. start the server by typing `npm start` in your terminal. After a few seconds the message *Server listening on port [portnumber]* should appear.

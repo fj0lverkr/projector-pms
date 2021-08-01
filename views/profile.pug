@@ -121,7 +121,7 @@ block content
                             .col-sm-1.text-secondary.align-items-end.text-end
                                 a(href="#" id="toggleEditAlias")
                                     i.fas.fa-edit.clickable
-                                a.hidden(href="#" id="saveEditAlias" user=profileUser.id)
+                                a.hidden(href="#" id="saveEditAlias")
                                     i.fas.fa-save.clickable
                                 i.fas.fa-circle-notch.ld.ld-spin.clickable(id="aliasSpinner")
                         hr
@@ -136,7 +136,7 @@ block content
                             .col-sm-1.text-secondary.align-items-end.text-end
                                 a(href="#" id="toggleEditFirstName")
                                     i.fas.fa-edit.clickable
-                                a.hidden(href="#" id="saveEditFirstName" user=profileUser.id)
+                                a.hidden(href="#" id="saveEditFirstName")
                                     i.fas.fa-save.clickable
                                 i.fas.fa-circle-notch.ld.ld-spin.clickable(id="firstNameSpinner")
                         hr
@@ -151,23 +151,39 @@ block content
                             .col-sm-1.text-secondary.align-items-end.text-end
                                 a(href="#" id="toggleEditLastName")
                                     i.fas.fa-edit.clickable
-                                a.hidden(href="#" id="saveEditLastName" user=profileUser.id)
+                                a.hidden(href="#" id="saveEditLastName")
                                     i.fas.fa-save.clickable
                                 i.fas.fa-circle-notch.ld.ld-spin.clickable(id="lastNameSpinner")
                         hr
                         .row
                             .col-sm-3
                                 h6.mb-0 Email
-                            .col-sm-8.text-secondary #{profileUser.profile.email}
+                            .col-sm-8.text-secondary
+                                span(id="profileEmail") #{profileUser.profile.email}
+                                .hidden(id="input-groupEmail")
+                                    .input-group
+                                        input.form-control(id="inputEmail" type="email" placeholder="Email" aria-label="Email")
                             .col-sm-1.text-secondary.align-items-end.text-end
-                                i.fas.fa-edit.clickable
+                                a(href="#" id="toggleEditEmail")
+                                    i.fas.fa-edit.clickable
+                                a.hidden(href="#" id="saveEditEmail")
+                                    i.fas.fa-save.clickable
+                                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="emailSpinner")
                         hr
                         .row
                             .col-sm-3
                                 h6.mb-0 Secondary email
-                            .col-sm-8.text-secondary #{profileUser.profile.secondaryEmail}
+                            .col-sm-8.text-secondary
+                                span(id="profileEmail2") #{profileUser.profile.secondEmail}
+                                .hidden(id="input-groupEmail2")
+                                    .input-group
+                                        input.form-control(id="inputEmail2" type="email" placeholder="Secondary email" aria-label="Secondary email")
                             .col-sm-1.text-secondary.align-items-end.text-end
-                                i.fas.fa-edit.clickable
+                                a(href="#" id="toggleEditEmail2")
+                                    i.fas.fa-edit.clickable
+                                a.hidden(href="#" id="saveEditEmail2")
+                                    i.fas.fa-save.clickable
+                                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="email2Spinner")
                         hr
                         .row
                             .col-sm-3

@@ -1,3 +1,6 @@
+const ValidateEmail = (email) =>
+  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
 $(document).ready(function () {
   $(".ld").each(function () {
     $(this).hide();
@@ -57,6 +60,9 @@ $(document).ready(function () {
           $("#inputAlias").prop("disabled", false);
         } else {
           toaster("error", data.reason);
+          $("#inputAlias").prop("disabled", false);
+          $("#aliasSpinner").hide();
+          $("#saveEditAlias").show();
         }
       }
     );
@@ -101,6 +107,9 @@ $(document).ready(function () {
           $("#inputFirstName").prop("disabled", false);
         } else {
           toaster("error", data.reason);
+          $("#inputFirstName").prop("disabled", false);
+          $("#firstNameSpinner").hide();
+          $("#saveEditFirstName").show();
         }
       }
     );
@@ -146,6 +155,119 @@ $(document).ready(function () {
           $("#inputLastName").prop("disabled", false);
         } else {
           toaster("error", data.reason);
+          $("#inputLastName").prop("disabled", false);
+          $("#lastNameSpinner").hide();
+          $("#saveEditLastName").show();
+        }
+      }
+    );
+  });
+
+  // Set e-mail field editable
+  $("#toggleEditEmail").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#inputEmail").val($("#profileEmail").text());
+    $("#profileEmail").hide();
+    $("#saveEditEmail").show();
+    $("#input-groupEmail").show();
+  });
+
+  // Validate input
+  $("#inputEmail").keyup(function () {
+    if (ValidateEmail($(this).val())) {
+      $("#saveEditEmail").show();
+    } else {
+      $("#saveEditEmail").hide();
+    }
+  });
+
+  // Save e-mail field
+  $("#saveEditEmail").click(function (e) {
+    let newEmail = $("#inputEmail").val();
+    e.preventDefault();
+    $("#inputEmail").prop("disabled", true);
+    $("#saveEditEmail").hide();
+    $("#emailSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateEmail",
+        oldEmail: $("#profileEmail").text(),
+        newEmail: newEmail,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileEmail").text(newEmail);
+          }
+          $("#emailSpinner").hide();
+          $("#saveEditEmail").hide();
+          $("#input-groupEmail").hide();
+          $("#profileEmail").show();
+          $("#toggleEditEmail").show();
+          $("#inputEmail").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputEmail").prop("disabled", false);
+          $("#emailSpinner").hide();
+          $("#saveEditEmail").show();
+        }
+      }
+    );
+  });
+
+  // Set secondary e-mail field editable
+  $("#toggleEditEmail2").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#inputEmail2").val($("#profileEmail2").text());
+    $("#profileEmail2").hide();
+    $("#saveEditEmail2").show();
+    $("#input-groupEmail2").show();
+  });
+
+  // Validate input
+  $("#inputEmail2").keyup(function () {
+    if (ValidateEmail($(this).val()) || $(this).val() === "") {
+      $("#saveEditEmail2").show();
+    } else {
+      $("#saveEditEmail2").hide();
+    }
+  });
+
+  // Save secondary e-mail field
+  $("#saveEditEmail2").click(function (e) {
+    let newEmail = $("#inputEmail2").val();
+    e.preventDefault();
+    $("#inputEmail2").prop("disabled", true);
+    $("#saveEditEmail2").hide();
+    $("#email2Spinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateSecondaryEmail",
+        oldEmail: $("#profileEmail2").text(),
+        newEmail: newEmail,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileEmail2").text(newEmail);
+          }
+          $("#email2Spinner").hide();
+          $("#saveEditEmail2").hide();
+          $("#input-groupEmail2").hide();
+          $("#profileEmail2").show();
+          $("#toggleEditEmail2").show();
+          $("#inputEmail2").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputEmail2").prop("disabled", false);
+          $("#email2Spinner").hide();
+          $("#saveEditEmail2").show();
         }
       }
     );

@@ -19,9 +19,6 @@ router.get("/profile", (req, res) => {
   if (!req.userContext) {
     return res.status(401).render("unauthenticated");
   }
-  console.log(
-    req.user.profile.firstName + ", " + res.locals.user.profile.firstName
-  );
   userData.getUserProfile(req.user.id).then((data) => {
     renderProfile(res, req.user, data);
   });
@@ -116,6 +113,63 @@ router.post("/ajax", (req, res) => {
             console.log(sqlErr);
             res.send({ success: false, reason: sqlErr });
           });
+      }
+      break;
+    case "updateEmail":
+      if (req.body.newEmail === "" || req.body.newEmail === req.body.oldEmail) {
+        res.send({ success: false, reason: "" });
+      } else if (
+        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.newEmail)
+      ) {
+        req.send({ success: false, reason: "String is not a valid e-mail." });
+      } else {
+        let newEmail = req.body.newEmail.toLowerCase();
+        oktaClient.getUser(req.user.id).then((oktaUser) => {
+          oktaUser.profile.email = newEmail;
+          oktaUser
+            .update()
+            .then(() => {
+              res.send({ success: true, reason: "Email updated." });
+            })
+            .catch((e) => {
+              console.log(JSON.stringify(e));
+              res.send({
+                success: false,
+                reason:
+                  "Okta API error: " + e.errorCauses[0].errorSummary + ".",
+              });
+            });
+        });
+      }
+      break;
+    case "updateSecondaryEmail":
+      if (req.body.newEmail === req.body.oldEmail) {
+        res.send({ success: false, reason: "" });
+      } else if (
+        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+          req.body.newEmail
+        ) &&
+        req.body.newEmail != ""
+      ) {
+        req.send({ success: false, reason: "String is not a valid e-mail." });
+      } else {
+        let newEmail = req.body.newEmail.toLowerCase();
+        oktaClient.getUser(req.user.id).then((oktaUser) => {
+          oktaUser.profile.secondEmail = newEmail;
+          oktaUser
+            .update()
+            .then(() => {
+              res.send({ success: true, reason: "Secondary email updated." });
+            })
+            .catch((e) => {
+              console.log(JSON.stringify(e));
+              res.send({
+                success: false,
+                reason:
+                  "Okta API error: " + e.errorCauses[0].errorSummary + ".",
+              });
+            });
+        });
       }
       break;
     default:

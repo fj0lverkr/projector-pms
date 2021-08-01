@@ -7,7 +7,7 @@ const UserAlias = require("../util/user-alias");
 dotenv.config();
 
 const getUserCountry = () => {
-  let token = process.env.IPINFOTOKEN || "4f2cbc04adfd61";
+  let token = process.env.IPINFOTOKEN;
   return new Promise((resolve, reject) => {
     fetch("https://ipinfo.io/json?token=" + token, {
       headers: { Accept: "application/json" },

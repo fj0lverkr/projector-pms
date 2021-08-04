@@ -43,3 +43,28 @@
 .shadow-none {
   box-shadow: none !important;
 }
+
+/* The overlay effect - lays on top of the container and over the image */
+.overlay {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  margin-top: -150px;
+  font-size: 20px;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  transition: 0.5s ease;
+  opacity: 0;
+  color: white;
+  text-align: center;
+}
+
+/* When you mouse over the container, fade in the overlay title */
+.pictureContainer:hover .overlay {
+  opacity: 1;
+}
+
+.overlay-text {
+    padding-top: 65px;
+}

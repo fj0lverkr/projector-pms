@@ -5,13 +5,16 @@ $(document).ready(function () {
   $(".ld").each(function () {
     $(this).hide();
   });
-  const phoneInputField = document.querySelector("#inputMobile");
-  const phoneInput = window.intlTelInput(phoneInputField, {
-    preferredCountries: [],
-    initialCountry: cc,
-    utilsScript:
-      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-  });
+    let phoneInput =  null;
+  if ($("#inputMobile").length) {
+    const phoneInputField = document.querySelector("#inputMobile");
+    phoneInput = window.intlTelInput(phoneInputField, {
+      preferredCountries: [],
+      initialCountry: cc,
+      utilsScript:
+        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+  }
 
   // Handle password recovery click event
   $("#resetPassword").click(function (e) {
@@ -31,7 +34,7 @@ $(document).ready(function () {
     );
   });
 
-  // Set alias field editable
+    // Set alias field editable
   $("#toggleEditAlias").click(function (e) {
     e.preventDefault();
     $(this).hide();

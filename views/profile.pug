@@ -49,10 +49,24 @@ block content
             .card
                 .card-body
                     .d-flex.flex-column.align-items-center.text-center
-                        if !profilePicture
-                            img.rounded-circle(src="https://simplyilm.com/wp-content/uploads/2017/08/temporary-profile-placeholder-1.jpg" width="150")
-                        else
-                            img.rounded-circle(src="data:image/png;base64," + profilePicture width="150")
+                        .pictureContainer
+                            if !profilePicture
+                                img.rounded-circle(src="https://simplyilm.com/wp-content/uploads/2017/08/temporary-profile-placeholder-1.jpg" width="150")
+                            else
+                                img.rounded-circle(src="data:image/png;base64," + profilePicture width="150")
+                            if user.id == profileUser.id
+                                .overlay.rounded-circle(id="changeProfilePicture" data-bs-toggle="modal" data-bs-target="#modalProfilePicture")
+                                    .overlay-text
+                                        i.fas.fa-edit
+                                .modal.fade(id="modalProfilePicture" tabindex="-1")
+                                    .modal-dialog.modal-dialog-centered
+                                        .modal-content
+                                            .modal-header
+                                                h5.modal-title Upload profile picture
+                                            .modal-body
+                                                .mb-3
+                                                    label.form-label(for="fileProfilePicture") Default file input example
+                                                    input.form-control(type="file" id="formFile" accept="image/*")
                         .mt-3
                             h4 
                                 span(id="titleFirstName").

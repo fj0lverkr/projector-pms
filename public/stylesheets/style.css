@@ -152,25 +152,29 @@ ol.nestedOl ol li:before {
 }
 
 /* Bootstrap overrides */
-.btn-primary {
+.btn-primary,
+a.btn-primary:visited {
   color: var(--vanilla-grey);
   background-color: var(--scuffed-dark-grey);
   border-color: var(--white-ish);
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+a.btn-primary:visited:hover {
   background-color: var(--vanilla-grey);
   color: var(--scuffed-dark-grey);
   border-color: var(--scuffed-dark-grey);
 }
 
-.btn-outline-primary {
+.btn-outline-primary,
+a.btn-outline-primary:visited {
   background-color: var(--vanilla-grey);
   color: var(--scuffed-dark-grey);
   border-color: var(--scuffed-dark-grey);
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover,
+a.btn-outline-primary:visited:hover {
   color: var(--vanilla-grey);
   background-color: var(--scuffed-dark-grey);
   border-color: var(--scuffed-dark-grey);

@@ -1,10 +1,10 @@
-import {getFileType, validateEmail} from "./util.js";
+import { getFileType, validateEmail } from "./util.js";
 
 $(document).ready(function () {
   $(".ld").each(function () {
     $(this).hide();
   });
-    let phoneInput =  null;
+  let phoneInput = null;
   if ($("#inputMobile").length) {
     const phoneInputField = document.querySelector("#inputMobile");
     phoneInput = window.intlTelInput(phoneInputField, {
@@ -33,7 +33,7 @@ $(document).ready(function () {
     );
   });
 
-    // Set alias field editable
+  // Set alias field editable
   $("#toggleEditAlias").click(function (e) {
     e.preventDefault();
     $(this).hide();
@@ -341,9 +341,21 @@ $(document).ready(function () {
       }
     );
   });
-    $("#fileProfilePicture").change(function() {
-        getFileType(this.files[0], function(mime){
-            console.log("callback result: " + mime.mime); 
-        });
+  $("#fileProfilePicture").change(function () {
+    getFileType(this.files[0], function (mime) {
+      if (
+        mime.expected === mime.mime &&
+        mime.mime.substring(0, 6) === "image/"
+      ) {
+        $("#labelProfilePicture").hide();
+        $("#saveProfilePicture").removeClass("disabled");
+        $("#saveProfilePicture").attr("aria-disabled", "false");
+      } else {
+        $("#saveProfilePicture").addClass("disabled");
+        $("#saveProfilePicture").attr("aria-disabled", "true");
+        $("#labelProfilePicture").text("Picture is invalid");
+        $("#labelProfilePicture").show();
+      }
     });
+  });
 });

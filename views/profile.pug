@@ -63,10 +63,17 @@ block content
                                         .modal-content
                                             .modal-header
                                                 h5.modal-title Upload profile picture
+                                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
                                             .modal-body
                                                 .mb-3
-                                                    label.form-label(for="fileProfilePicture") Default file input example
                                                     input.form-control(type="file" id="fileProfilePicture" accept="image/*")
+                                                    label.form-label.hidden(id="labelProfilePicture" for="fileProfilePicture")
+                                            .modal-footer
+                                                .align-items-end
+                                                    a.btn.btn-primary.disabled(href="#" id="saveProfilePicture" aria-disabled="true") Save
+                                                    button.btn.btn-outline-primary.ms-1(type="button" data-bs-dismiss="modal") Cancel
+
+
                         .mt-3
                             h4 
                                 span(id="titleFirstName").

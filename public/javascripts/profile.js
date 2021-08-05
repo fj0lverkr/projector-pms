@@ -1,5 +1,4 @@
-const ValidateEmail = (email) =>
-  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+import {getFileType, validateEmail} from "./util.js";
 
 $(document).ready(function () {
   $(".ld").each(function () {
@@ -186,7 +185,7 @@ $(document).ready(function () {
 
   // Validate input
   $("#inputEmail").keyup(function () {
-    if (ValidateEmail($(this).val())) {
+    if (validateEmail($(this).val())) {
       $("#saveEditEmail").show();
     } else {
       $("#saveEditEmail").hide();
@@ -241,7 +240,7 @@ $(document).ready(function () {
 
   // Validate input
   $("#inputEmail2").keyup(function () {
-    if (ValidateEmail($(this).val()) || $(this).val() === "") {
+    if (validateEmail($(this).val()) || $(this).val() === "") {
       $("#saveEditEmail2").show();
     } else {
       $("#saveEditEmail2").hide();
@@ -305,7 +304,7 @@ $(document).ready(function () {
     }
   });
 
-  // Save secondary e-mail field
+  // Save mobile phone field
   $("#saveEditMobile").click(function (e) {
     let newMobile = phoneInput.getNumber();
     let profileField = document.getElementById("#profileMobile");
@@ -342,4 +341,9 @@ $(document).ready(function () {
       }
     );
   });
+    $("#fileProfilePicture").change(function() {
+        getFileType(this.files[0], function(mime){
+            console.log("callback result: " + mime.mime); 
+        });
+    });
 });

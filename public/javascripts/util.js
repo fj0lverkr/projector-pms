@@ -48,10 +48,26 @@ const check = (bytes, mime) => {
   return true;
 };
 
+// TODO add more types as neccesary
+const getMinBytes = (fileType) => {
+  switch (fileType.toLowerCase().split("/")[1]) {
+    case "bmp":
+      return 2;
+    case "gif":
+      return 6;
+    case "webp":
+      return 14;
+    case "png":
+      return 8;
+    default:
+      return 4;
+  }
+};
+
 const getFileType = (file, callback) => {
   if (window.FileReader && window.Blob) {
     let reader = new FileReader();
-    let blob = file.slice(0, 4);
+    let blob = file.slice(0, getMinBytes(file.type));
     reader.onloadend = function (e) {
       if (e.target.readyState === FileReader.DONE) {
         let bytes = new Uint8Array(e.target.result);
@@ -73,4 +89,4 @@ const validateEmail = (email) =>
   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 
 // EXPORTS
-export { getFileType, validateEmail };
+export { mimes, getFileType, validateEmail };

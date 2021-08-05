@@ -1,3 +1,5 @@
+// TODO add more mimetypes: https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
+
 const mimes = [
   {
     mime: "image/jpeg",
@@ -70,4 +72,5 @@ const getFileType = (file, callback) => {
 const validateEmail = (email) =>
   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 
+// EXPORTS
 export { getFileType, validateEmail };

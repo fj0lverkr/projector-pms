@@ -1,5 +1,21 @@
 extends layout
 
+mixin modal
+    .modal.fade(id="modalProfilePicture" tabindex="-1")
+        .modal-dialog.modal-dialog-centered
+            .modal-content
+                .modal-header
+                    h5.modal-title Upload profile picture
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+                    .mb-3
+                        input.form-control(type="file" id="fileProfilePicture" accept="image/*")
+                        span.hidden.mt-3.text-danger(id="labelProfilePicture")
+                .modal-footer
+                    .align-items-end
+                        a.btn.btn-primary.disabled(href="#" id="saveProfilePicture" aria-disabled="true") Save
+                        button.btn.btn-outline-primary.ms-1(type="button" data-bs-dismiss="modal") Cancel
+
 block variables
     - var title = 'Profile'
 
@@ -13,6 +29,7 @@ block stylesheets
     link(rel="stylesheet" href="/stylesheets/profile.css")
 
 block content
+    +modal
     .row.border-bottom.px-5.mx-3
         .col-sm-8
             if user.id != profileUser.id
@@ -58,22 +75,6 @@ block content
                                 .overlay.rounded-circle(id="changeProfilePicture" data-bs-toggle="modal" data-bs-target="#modalProfilePicture")
                                     .overlay-text
                                         i.fas.fa-edit
-                                .modal.fade(id="modalProfilePicture" tabindex="-1")
-                                    .modal-dialog.modal-dialog-centered
-                                        .modal-content
-                                            .modal-header
-                                                h5.modal-title Upload profile picture
-                                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
-                                            .modal-body
-                                                .mb-3
-                                                    input.form-control(type="file" id="fileProfilePicture" accept="image/*")
-                                                    label.form-label.hidden(id="labelProfilePicture" for="fileProfilePicture")
-                                            .modal-footer
-                                                .align-items-end
-                                                    a.btn.btn-primary.disabled(href="#" id="saveProfilePicture" aria-disabled="true") Save
-                                                    button.btn.btn-outline-primary.ms-1(type="button" data-bs-dismiss="modal") Cancel
-
-
                         .mt-3
                             h4 
                                 span(id="titleFirstName").

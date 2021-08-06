@@ -44,6 +44,12 @@
   box-shadow: none !important;
 }
 
+.pictureContainer {
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+}
+
 /* The overlay effect - lays on top of the container and over the image */
 .overlay {
   position: absolute;
@@ -66,5 +72,5 @@
 }
 
 .overlay-text {
-    padding-top: 65px;
+  padding-top: 65px;
 }

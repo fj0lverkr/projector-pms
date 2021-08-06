@@ -49,11 +49,11 @@ block content
             .card
                 .card-body
                     .d-flex.flex-column.align-items-center.text-center
-                        .pictureContainer
+                        .pictureContainer.rounded-circle
                             if !profilePicture
-                                img.rounded-circle(src="https://simplyilm.com/wp-content/uploads/2017/08/temporary-profile-placeholder-1.jpg" width="150")
+                                img(src="https://simplyilm.com/wp-content/uploads/2017/08/temporary-profile-placeholder-1.jpg" width="150" id="imgProfilePicture")
                             else
-                                img.rounded-circle(src="data:image/png;base64," + profilePicture width="150")
+                                img(src=profilePicture width="150" id="imgProfilePicture")
                             if user.id == profileUser.id
                                 .overlay.rounded-circle(id="changeProfilePicture" data-bs-toggle="modal" data-bs-target="#modalProfilePicture")
                                     .overlay-text

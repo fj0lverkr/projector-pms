@@ -85,8 +85,79 @@ const getFileType = (file, callback) => {
   }
 };
 
+/* Utility function to convert a canvas to a BLOB */
+const dataURLToBlob = (dataURL) => {
+  const BASE64_MARKER = ";base64,";
+  if (dataURL.indexOf(BASE64_MARKER) == -1) {
+    let parts = dataURL.split(",");
+    let contentType = parts[0].split(":")[1];
+    let raw = parts[1];
+
+    return new Blob([raw], { type: contentType });
+  }
+
+  let parts = dataURL.split(BASE64_MARKER);
+  let contentType = parts[0].split(":")[1];
+  let raw = window.atob(parts[1]);
+  let rawLength = raw.length;
+
+  let uInt8Array = new Uint8Array(rawLength);
+
+  for (let i = 0; i < rawLength; ++i) {
+    uInt8Array[i] = raw.charCodeAt(i);
+  }
+
+  return new Blob([uInt8Array], { type: contentType });
+};
+/* End Utility function to convert a canvas to a BLOB      */
+
+const resizeImage = (file, maxSize, callback) => {
+  getFileType(file, function (mime) {
+    if (mime.expected === mime.mime && mime.mime.substring(0, 6) === "image/") {
+      // Load the image
+      let reader = new FileReader();
+      reader.onload = function (readerEvent) {
+        let image = new Image();
+        image.onload = function (_) {
+          let canvas = document.createElement("canvas"),
+            width = image.naturalWidth,
+            height = image.naturalHeight;
+          canvas.width = maxSize;
+          canvas.height = maxSize;
+          if (width === height) {
+            canvas.getContext("2d").drawImage(image, 0, 0, maxSize, maxSize);
+          } else {
+            //crop to square of maxSize * maxSize
+            let limit = width > height ? height : width;
+            canvas
+              .getContext("2d")
+              .drawImage(image, 0, 0, limit, limit, 0, 0, maxSize, maxSize);
+          }
+          let dataUrl = canvas.toDataURL("image/png");
+          let resizedImage = dataURLToBlob(dataUrl);
+          return callback({
+            success: true,
+            reason: "OK",
+            blob: resizedImage,
+            dataUrl: dataUrl,
+          });
+        };
+        image.src = readerEvent.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      return callback({
+        success: false,
+        reason: "not a valid image file",
+        blob: null,
+        dataUrl: null,
+      });
+    }
+  });
+};
+
 const validateEmail = (email) =>
   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 
 // EXPORTS
-export { mimes, getFileType, validateEmail };
+export { getFileType, resizeImage, validateEmail };

@@ -166,6 +166,15 @@ a.btn-primary:visited:hover {
   border-color: var(--scuffed-dark-grey);
 }
 
+a.btn-primary.disabled,
+a.btn-primary.disabled:hover,
+a.btn-primary.disabled:visited,
+a.btn-primary.disabled:visited:hover {
+  color: var(--scuffed-dark-grey);
+  background-color: var(--vanilla-grey);
+  border-color: var(--vanilla-grey);
+}
+
 .btn-outline-primary,
 a.btn-outline-primary:visited {
   background-color: var(--vanilla-grey);

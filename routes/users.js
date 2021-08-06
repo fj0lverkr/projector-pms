@@ -194,6 +194,28 @@ router.post("/ajax", (req, res) => {
         });
       }
       break;
+    case "updateProfilePicture":
+      if (
+        req.body.newDataUrl === "" ||
+        req.body.newDataUrl === req.body.oldDataUrl
+        /*TODO validate filetype again.
+           This was done client-side already but needs server-side recheck for security.
+      */
+      ) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newDataUrl = req.body.newDataUrl;
+        userData
+          .updateUserSimpleField(req.user.id, "profile_picture", newDataUrl)
+          .then((_) => {
+            res.send({ success: true, reason: "Profile picture updated." });
+          })
+          .catch((sqlErr) => {
+            console.log(sqlErr);
+            res.send({ success: false, reason: sqlErr });
+          });
+      }
+      break;
     default:
       res.send({
         success: false,

@@ -233,7 +233,7 @@ const setupUserExtraData = (dbName, okta_id, user_role) => {
                 ".user_extra(okta_id, profile_picture, user_role, first_name, last_name, alias) values (" +
                 dbc.escape(okta_id) +
                 ", " +
-                dbc.escape(response) +
+                dbc.escape("data:image/png;base64," + response) +
                 ", " +
                 dbc.escape(user_role) +
                 ", " +

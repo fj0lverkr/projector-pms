@@ -1,6 +1,7 @@
-import { getFileType, validateEmail } from "./util.js";
+import { getFileType, resizeImage, validateEmail } from "./util.js";
 
 $(document).ready(function () {
+  let selectedProfilePicture = null;
   $(".ld").each(function () {
     $(this).hide();
   });
@@ -342,7 +343,8 @@ $(document).ready(function () {
     );
   });
   $("#fileProfilePicture").change(function () {
-    getFileType(this.files[0], function (mime) {
+    let file = this.files[0];
+    getFileType(file, function (mime) {
       if (
         mime.expected === mime.mime &&
         mime.mime.substring(0, 6) === "image/"
@@ -350,11 +352,47 @@ $(document).ready(function () {
         $("#labelProfilePicture").hide();
         $("#saveProfilePicture").removeClass("disabled");
         $("#saveProfilePicture").attr("aria-disabled", "false");
+        selectedProfilePicture = file;
       } else {
         $("#saveProfilePicture").addClass("disabled");
         $("#saveProfilePicture").attr("aria-disabled", "true");
         $("#labelProfilePicture").text("Picture is invalid");
         $("#labelProfilePicture").show();
+        selectedProfilePicture = null;
+      }
+    });
+  });
+  $("#saveProfilePicture").click(function (e) {
+    e.preventDefault();
+    resizeImage(selectedProfilePicture, 150, function (result) {
+      if (result.success) {
+        $.post(
+          "../../users/ajax",
+          {
+            action: "updateProfilePicture",
+            oldDataUrl: $("#imgProfilePicture").attr("src"),
+            newDataUrl: result.dataUrl,
+          },
+          function (data) {
+            if (data.success === true || data.reason === "") {
+              if (data.success === true) {
+                $("#modalProfilePicture").modal("toggle");
+                toaster("success", data.reason);
+
+                $("#imgProfilePicture").attr("src", result.dataUrl);
+              }
+            } else {
+              toaster("error", data.reason);
+              $("#modalProfilePicture").modal("toggle");
+            }
+          }
+        );
+      } else {
+        $("#saveProfilePicture").addClass("disabled");
+        $("#saveProfilePicture").attr("aria-disabled", "true");
+        $("#labelProfilePicture").text(result.reason);
+        $("#labelProfilePicture").show();
+        selectedProfilePicture = null;
       }
     });
   });

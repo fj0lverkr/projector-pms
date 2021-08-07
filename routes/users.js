@@ -216,6 +216,22 @@ router.post("/ajax", (req, res) => {
           });
       }
       break;
+    case "updateTitle":
+      if (req.body.newTitle === "" || req.body.newTitle === req.body.oldTitle) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newTitle = req.body.newTitle;
+        userData
+          .updateUserSimpleField(req.user.id, "title", newTitle)
+          .then((sqlResult) => {
+            res.send(sqlResult);
+          })
+          .catch((sqlErr) => {
+            console.log(sqlErr);
+            res.send({ success: false, reason: sqlErr });
+          });
+      }
+      break;
     default:
       res.send({
         success: false,
@@ -232,7 +248,13 @@ const renderProfile = (res, oktaUser, extraInfo, countryCode = "") => {
     profileRoleName: extraInfo.role_name,
     profileRoleSuper: extraInfo.role_super,
     profileAlias: extraInfo.alias,
-    profileCountry: countryCode,
+    profileTitle: extraInfo.title,
+    profileCountryName: extraInfo.country_name,
+    profileCountryCode: extraInfo.country_code,
+    profileCountry: extraInfo.country_code
+      ? extraInfo.country_code
+      : countryCode,
+    profileArea: extraInfo.area,
   });
 };
 

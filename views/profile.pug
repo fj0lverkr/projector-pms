@@ -82,8 +82,25 @@ block content
                                 span &#32;
                                 span(id="titleLastName").
                                     #{profileUser.profile.lastName}
-                            p.text-secondary.mb-1 [PLACEHOLDER] Senior Restroom Attendant
-                            p.text-muted.font-size-sm [PLACEHOLDER] Brussels Area, Belgium
+                            if !profileTitle || profileTitle == ""
+                                span.text-secondary.mb-1(id="profileTitle") No title set
+                            else
+                                span.text-secondary.mb-1(id="profileTitle") #{profileTitle}
+                            if user.id == profileUser.id
+                                .hidden(id="input-groupTitle")
+                                    .input-group
+                                        input.form-control(id="inputTitle" type="text" placeholder="title" aria-label="title" aria-describedby="basic-title")
+                                        a.hidden.ms-1(href="#" id="saveEditTitle")
+                                            i.fas.fa-save.clickable
+                                        i.fas.fa-circle-notch.ld.ld-spin.clickable.ms-1(id="titleSpinner")
+                                a.ms-1(href="#" id="toggleEditTitle")
+                                    i.fas.fa-edit.clickable
+                            if !profileArea && !profileCountryName
+                                p.text-muted.font-size-sm No location set
+                            else if !profileArea || profileArea == ""
+                                p.text-muted.font-size-sm #{profileCountryName}
+                            else
+                                p.text-muted.font-size-sm #{profileArea} area, #{profileCountryName}
                             if user.id != profileUser.id
                                 p.text-muted.font-size-sm 
                                     a.btn.btn-primary(href="#" id="followUser" user=profileUser.id) Follow

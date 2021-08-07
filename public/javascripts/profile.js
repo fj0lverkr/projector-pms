@@ -396,4 +396,50 @@ $(document).ready(function () {
       }
     });
   });
+
+  // Set title field editable
+  $("#toggleEditTitle").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileTitle").hide();
+    $("#saveEditTitle").show();
+    $("#input-groupTitle").show();
+      $("#inputTitle").val($("#profileTitle").text());
+  });
+
+  // Save title field
+  $("#saveEditTitle").click(function (e) {
+    let newTitle = $("#inputTitle").val();
+    e.preventDefault();
+    $("#inputTitle").prop("disabled", true);
+    $("#saveEditTitle").hide();
+    $("#titleSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateTitle",
+        oldTitle: $("#profileTitle").text(),
+        newTitle: newTitle,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileTitle").text(newTitle);
+          }
+          $("#titleSpinner").hide();
+          $("#saveEditTitle").hide();
+          $("#input-groupTitle").hide();
+          $("#profileTitle").show();
+          $("#toggleEditTitle").show();
+          $("#inputTitle").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputTitle").prop("disabled", false);
+          $("#titleSpinner").hide();
+          $("#saveEditTitle").show();
+        }
+      }
+    );
+  });
 });

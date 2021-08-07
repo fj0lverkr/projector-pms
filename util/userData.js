@@ -6,7 +6,7 @@ const UserAlias = require("../util/user-alias");
 
 dotenv.config();
 
-const getUserCountry = () => {
+const getUserCountryFromIp = () => {
   let token = process.env.IPINFOTOKEN;
   return new Promise((resolve, reject) => {
     fetch("https://ipinfo.io/json?token=" + token, {
@@ -302,7 +302,7 @@ const setAppRole = (oktaUser, appRole) => {
 };
 
 module.exports = {
-  getUserCountry,
+  getUserCountryFromIp,
   getAllAppRoles,
   getAllOktaUsers,
   getUserIsSuper,

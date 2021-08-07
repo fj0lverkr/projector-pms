@@ -19,7 +19,7 @@ router.get("/profile", (req, res) => {
     return res.status(401).render("unauthenticated");
   }
   userData.getUserProfile(req.user.id).then((data) => {
-    userData.getUserCountry().then((countryCode) => {
+    userData.getUserCountryFromIp().then((countryCode) => {
       renderProfile(res, req.user, data, countryCode);
     });
   });

@@ -7,3 +7,16 @@ block content
     .display-5.border-bottom.ps-5.mx-3 #{title} 
     .row
         include ./includes/editor.pug
+    .row
+        .input-group
+            select.form-select(aria-label="Example select with button addon")
+                option(selected) Choose...
+                optgroup(label="numbers")
+                    option(value="1") One
+                    option(value="2") Two
+                    option(value="3") Three
+                optgroup(label="letters")
+                    option(value="A") A
+                    option(value="B") B
+                    option(value="C") C
+            button.btn.btn-outline-primary(type="button") Button

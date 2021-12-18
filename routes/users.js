@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const userData = require("../util/userData");
+const metaQueries = require("../util/metaQueries");
 const oktaClient = require("../util/oktaClient");
 
 //User logout (other routes are defined by OIDC middleware)
@@ -14,9 +15,11 @@ router.get("/profile", (req, res) => {
   if (!req.userContext) {
     return res.status(401).render("unauthenticated");
   }
-  userData.getUserProfile(req.user.id).then((data) => {
+  userData.getUserProfile(req.user.id).then((uData) => {
     userData.getUserCountryFromIp().then((countryCode) => {
-      renderProfile(res, req.user, data, countryCode);
+      metaQueries.getCitiesByCountry(countryCode).then((cityData) => {
+        renderProfile(res, req.user, uData, countryCode, cityData);
+      });
     });
   });
 });
@@ -237,7 +240,7 @@ router.post("/ajax", (req, res) => {
   }
 });
 
-const renderProfile = (res, oktaUser, extraInfo, countryCode = "") => {
+const renderProfile = (res, oktaUser, extraInfo, countryCode = "", cities = []) => {
   res.render("profile", {
     profileUser: oktaUser,
     profilePicture: extraInfo.profile_picture,
@@ -251,6 +254,7 @@ const renderProfile = (res, oktaUser, extraInfo, countryCode = "") => {
       ? extraInfo.country_code
       : countryCode,
     profileArea: extraInfo.area,
+    optCities: cities,
   });
 };
 

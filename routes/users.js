@@ -10,10 +10,6 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.get("/callback", (req, res) => {
-  res.redirect("/dashboard");
-});
-
 router.get("/profile", (req, res) => {
   if (!req.userContext) {
     return res.status(401).render("unauthenticated");

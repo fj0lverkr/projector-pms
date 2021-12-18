@@ -1,6 +1,6 @@
 extends layout
 
-mixin modal
+mixin modalProfilePicture
     .modal.fade(id="modalProfilePicture" tabindex="-1")
         .modal-dialog.modal-dialog-centered
             .modal-content
@@ -29,7 +29,7 @@ block stylesheets
     link(rel="stylesheet" href="/stylesheets/profile.css")
 
 block content
-    +modal
+    +modalProfilePicture
     .row.border-bottom.px-5.mx-3
         .col-sm-8
             if user.id != profileUser.id

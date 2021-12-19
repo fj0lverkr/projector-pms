@@ -231,6 +231,29 @@ router.post("/ajax", (req, res) => {
           });
       }
       break;
+    case "updateProfileLocation":
+      if(req.body.newCountry === "" || req.body.newCity == ""){
+        res.send({ success: false, reason: "" });
+      } else {
+        let newCountry = req.body.newCountry;
+        let newCity = req.body.newCity;
+        userData
+          .updateUserSimpleField(req.user.id, "country", newCountry)
+          .then((_) => {
+            userData
+              .updateUserSimpleField(req.user.id, "city", newCity)
+              .then((sqlResultCity) => {
+                res.send(sqlResultCity);
+              })
+              .catch((sqlErrCity) => {
+                res.send(sqlErrCity)
+              });
+          })
+          .catch((sqlErrCountry) => {
+            res.send({ success: false, reason: sqlErrCountry})
+          });
+      }
+      break;
     default:
       res.send({
         success: false,
@@ -253,7 +276,8 @@ const renderProfile = (res, oktaUser, extraInfo, countryCode = "", cities = []) 
     profileCountry: extraInfo.country_code
       ? extraInfo.country_code
       : countryCode,
-    profileArea: extraInfo.area,
+    profileCity: extraInfo.city,
+    profileCityName: extraInfo.city_name,
     optCities: cities,
   });
 };

@@ -16,6 +16,18 @@ $(document).ready(function () {
     });
   }
 
+  // Set up choises.js elements
+
+  // 1. for the city selector:
+  let choicesOptCities = [];
+  optCities.forEach(e => {
+    choicesOptCities.push(JSON.parse('{"value": "' + e.id + '", "label": "' + e.city_name + '"}'));
+  });
+  const locationElem = document.querySelector("#js-choises-location");
+  const locationChoises = new Choices(locationElem, {
+    choices: choicesOptCities,
+  });
+
   // Handle password recovery click event
   $("#resetPassword").click(function (e) {
     e.preventDefault();
@@ -442,4 +454,30 @@ $(document).ready(function () {
       }
     );
   });
+
+  // Save location
+  $("#saveProfileLocation").click(function (e) {
+    let newLocation = locationChoises.getValue();
+    e.preventDefault();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateProfileLocation",
+        newCountry: cc,
+        newCity: newLocation.value,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileLocation").text(newLocation.label + " area, " + ccName);
+            $("#modalProfileLocation").modal("toggle");
+          }
+        } else {
+          toaster("error", data.reason);
+        }
+      }
+    );
+  });
+
 });

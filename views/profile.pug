@@ -1,35 +1,30 @@
 extends layout
-
-mixin modalProfilePicture
-    .modal.fade(id="modalProfilePicture" tabindex="-1")
-        .modal-dialog.modal-dialog-centered
-            .modal-content
-                .modal-header
-                    h5.modal-title Upload profile picture
-                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
-                .modal-body
-                    .mb-3
-                        input.form-control(type="file" id="fileProfilePicture" accept="image/*")
-                        span.hidden.mt-3.text-danger(id="labelProfilePicture")
-                .modal-footer
-                    .align-items-end
-                        a.btn.btn-primary.disabled(href="#" id="saveProfilePicture" aria-disabled="true") Save
-                        button.btn.btn-outline-primary.ms-1(type="button" data-bs-dismiss="modal") Cancel
+include ./includes/mixins.pug
 
 block variables
     - var title = 'Profile'
 
 block scripts
-    script let cc = '#{profileCountry}';
-    script(src="/javascripts/profile.js" type="module")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js")
+  script.
+    let cc = '#{profileCountry}';
+    let ccName = '#{profileCountryName}';
+    let optCities =!{JSON.stringify(optCities)};
+    if(ccName === ""){
+      ccName = optCities[0].country_name;
+    }
+
+  script(src="/javascripts/profile.js" type="module")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js")
+  script(src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js")
 
 block stylesheets
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css")
     link(rel="stylesheet" href="/stylesheets/profile.css")
 
 block content
     +modalProfilePicture
+    +modalProfileLocation
     .row.border-bottom.px-5.mx-3
         .col-sm-8
             if user.id != profileUser.id
@@ -95,15 +90,19 @@ block content
                                         i.fas.fa-circle-notch.ld.ld-spin.clickable.ms-1(id="titleSpinner")
                                 a.ms-1(href="#" id="toggleEditTitle")
                                     i.fas.fa-edit.clickable
-                            if !profileArea && !profileCountryName
-                                p.text-muted.font-size-sm No location set
-                            else if !profileArea || profileArea == ""
-                                p.text-muted.font-size-sm #{profileCountryName}
-                            else
-                                p.text-muted.font-size-sm #{profileArea} area, #{profileCountryName}
-                            if user.id != profileUser.id
+                            p
+                              if !profileCity && !profileCountryName
+                                span(id="profileLocation").text-muted.font-size-sm No location set
+                              else if !profileCityName || profileCityName == ""
+                                span(id="profileLocation").text-muted.font-size-sm #{profileCountryName}
+                              else
+                                span(id="profileLocation").text-muted.font-size-sm #{profileCityName} area, #{profileCountryName}
+                              if user.id == profileUser.id
+                                a.ms-1(href="#" id="toggleEditLocation" data-bs-toggle="modal" data-bs-target="#modalProfileLocation")
+                                  i.fas.fa-edit.clickable
+                              else
                                 p.text-muted.font-size-sm 
-                                    a.btn.btn-primary(href="#" id="followUser" user=profileUser.id) Follow
+                                  a.btn.btn-primary(href="#" id="followUser" user=profileUser.id) Follow
             .card.mt-3
                 ul.list-group.list-group-flush
                     li.list-group-item.d-flex.justify-content-between.align-items-center.flex-wrap

@@ -1,0 +1,29 @@
+mixin modalProfilePicture
+  .modal.fade(id="modalProfilePicture" tabindex="-1")
+    .modal-dialog.modal-dialog-centered
+      .modal-content
+        .modal-header
+          h5.modal-title Upload profile picture
+          button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+        .modal-body
+          .mb-3
+            input.form-control(type="file" id="fileProfilePicture" accept="image/*")
+            span.hidden.mt-3.text-danger(id="labelProfilePicture")
+          .modal-footer
+            .align-items-end
+              a.btn.btn-primary.disabled(href="#" id="saveProfilePicture" aria-disabled="true") Save
+              button.btn.btn-outline-primary.ms-1(type="button" data-bs-dismiss="modal") Cancel
+
+mixin modalProfileLocation
+  .modal.fade(id="modalProfileLocation" tabindex="-1")
+    .modal-dialog.modal-dialog-centered
+      .modal-content
+        .modal-header
+          h5.modal-title Set your location
+          button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+        .modal-body
+          select(id="js-choises-location")
+        .modal-footer
+          a.btn.btn-primary(href="#" id="saveProfileLocation") Save
+          button.btn.btn-outline-primary.ms-1(type="button" data-bs-dismiss="modal") Cancel
+

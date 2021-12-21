@@ -95,7 +95,10 @@ const getUserIsSuper = (okta_id) => {
 const getUserProfile = (okta_id) => {
   let dbName = process.env.DBNAME || "projector_dev";
   let selectUserProfile =
-    "select UEX.profile_picture, UEX.alias, ARO.name as role_name, ARO.superUser as role_super, UEX.country as country_code, COU.country_name as country_name, UEX.title, UEX.city, CTY.city_name as city_name from " +
+    "select UEX.profile_picture, UEX.alias, ARO.name as role_name, ARO.superUser as role_super, " +
+    "UEX.country as country_code, COU.country_name as country_name, UEX.title, UEX.city, " +
+    "CTY.city_name as city_name, UEX.website as website, UEX.github_handle as github_handle, UEX.facebook_handle as facebook_handle, " +
+    "UEX.twitter_handle as twitter_handle, UEX. linkedin_handle as linkedin_handle, UEX.instagram_handle as instagram_handle from " +
     dbName +
     ".user_extra UEX inner join " +
     dbName +

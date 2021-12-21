@@ -254,6 +254,22 @@ router.post("/ajax", (req, res) => {
           });
       }
       break;
+    case "updateWebsite":
+      if (req.body.newWebsite === req.body.oldWebsite) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newWebsite = req.body.newWebsite;
+        userData
+          .updateUserSimpleField(req.user.id, "website", newWebsite)
+          .then((sqlResult) => {
+            res.send(sqlResult);
+          })
+          .catch((sqlErr) => {
+            console.log(sqlErr);
+            res.send({ success: false, reason: sqlErr });
+          });
+    }
+    break;
     default:
       res.send({
         success: false,
@@ -278,6 +294,12 @@ const renderProfile = (res, oktaUser, extraInfo, countryCode = "", cities = []) 
       : countryCode,
     profileCity: extraInfo.city,
     profileCityName: extraInfo.city_name,
+    profileWebsite: extraInfo.website,
+    profileFacebook: extraInfo.facebook_handle,
+    profileGithub: extraInfo.github_handle,
+    profileTwitter: extraInfo.twitter_handle,
+    profileLinkedIn: extraInfo.linkedin_handle,
+    profileInstagram: extraInfo.instagram_handle,
     optCities: cities,
   });
 };

@@ -480,4 +480,56 @@ $(document).ready(function () {
     );
   });
 
+  // Set website field editable
+  $("#toggleEditWebsite").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileWebsiteUrl").hide();
+    $("#noWebsitePlaceholder").hide();
+    $("#saveEditWebsite").show();
+    $("#input-groupWebsite").show();
+    $("#inputWebsite").val($("#profileWebsiteUrl").text());
+  });
+
+  // Save website field
+  $("#saveEditWebsite").click(function (e) {
+    let newWebsite = $("#inputWebsite").val();
+    e.preventDefault();
+    $("#inputWebsite").prop("disabled", true);
+    $("#saveEditWebsite").hide();
+    $("#websiteSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateWebsite",
+        oldWebsite: $("#profileWebsiteUrl").prop("href"),
+        newWebsite: newWebsite,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileWebsiteUrl").text(newWebsite);
+            $("#profileWebsiteUrl").prop("href",newWebsite);
+          }
+          $("#websiteSpinner").hide();
+          $("#saveEditWebsite").hide();
+          $("#input-groupWebsite").hide();
+          if(newWebsite != ""){
+            $("#profileWebsiteUrl").show();
+          } else {
+            $("#noWebsitePlaceholder").show();
+          }
+          $("#toggleEditWebsite").show();
+          $("#inputWebsite").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputWebsite").prop("disabled", false);
+          $("#WebsiteSpinner").hide();
+          $("#saveEditWebsite").show();
+        }
+      }
+    );
+  });
+
 });

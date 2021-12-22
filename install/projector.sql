@@ -169,6 +169,12 @@ CREATE TABLE `user_extra` (
   `title` varchar(45) DEFAULT NULL,
   `country` char(2) DEFAULT NULL,
   `city` int DEFAULT NULL,
+  `website` varchar(50) DEFAULT NULL,
+  `github_handle` varchar(45) DEFAULT NULL,
+  `facebook_handle` varchar(45) DEFAULT NULL,
+  `twitter_handle` varchar(45) DEFAULT NULL,
+  `linkedin_handle` varchar(45) DEFAULT NULL,
+  `instagram_handle` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`iduser_extra`),
   UNIQUE KEY `okta_id_UNIQUE` (`okta_id`),
   KEY `fk-app_role_idx` (`user_role`),
@@ -219,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-19 17:03:36
+-- Dump completed on 2021-12-22 19:52:49

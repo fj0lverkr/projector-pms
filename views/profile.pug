@@ -102,7 +102,7 @@ block content
                     a.btn.btn-primary(href="#" id="followUser" user=profileUser.id) Follow
       .card.mt-3
         .card-body
-          .row
+          .row.mb-2.pb-2.mx-2.border-bottom
             .col-sm-3
               h6.mb-0
                 svg(xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline")
@@ -111,7 +111,7 @@ block content
                   path(d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z") Website
             .col-sm-8
               if profileWebsite && profileWebsite != ""
-                a.no-underline.text-secondary(href="#{profileWebsite}" target="_blank" id="profileWebsiteUrl").
+                a.no-underline.text-secondary(href=profileWebsite target="_blank" id="profileWebsiteUrl").
                   #{profileWebsite}
               else
                 span.text-secondary(id="noWebsitePlaceholder") no website added
@@ -119,13 +119,13 @@ block content
                 .hidden(id="input-groupWebsite")
                   .input-group
                     input.form-control.social-inputs(id="inputWebsite" type="text" placeholder="website" aria-label="website") 
-          if user.id == profileUser.id
-            .col-sm-1.align-items-end.text-end
-              a(href="#" id="toggleEditWebsite")
-                i.fas.fa-edit.clickable
-              a.hidden(href="#" id="saveEditWebsite")
-                i.fas.fa-save.clickable
-              i.fas.fa-circle-notch.ld.ld-spin.clickable(id="websiteSpinner")
+            if user.id == profileUser.id
+              .col-sm-1.align-items-end.text-end
+                a(href="#" id="toggleEditWebsite")
+                  i.fas.fa-edit.clickable
+                a.hidden(href="#" id="saveEditWebsite")
+                  i.fas.fa-save.clickable
+                i.fas.fa-circle-notch.ld.ld-spin.clickable(id="websiteSpinner")
           li.list-group-item.d-flex.justify-content-between.align-items-center.flex-wrap
             h6.mb-0
               svg(xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github mr-2 icon-inline")

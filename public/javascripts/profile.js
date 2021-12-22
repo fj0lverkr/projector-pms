@@ -1,4 +1,4 @@
-import { getFileType, resizeImage, validateEmail } from "./util.js";
+import { getFileType, resizeImage, validateEmail, getValidUrl } from "./util.js";
 
 $(document).ready(function () {
   let selectedProfilePicture = null;
@@ -494,6 +494,7 @@ $(document).ready(function () {
   // Save website field
   $("#saveEditWebsite").click(function (e) {
     let newWebsite = $("#inputWebsite").val();
+    newWebsite = getValidUrl(newWebsite);
     e.preventDefault();
     $("#inputWebsite").prop("disabled", true);
     $("#saveEditWebsite").hide();

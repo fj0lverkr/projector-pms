@@ -268,8 +268,24 @@ router.post("/ajax", (req, res) => {
             console.log(sqlErr);
             res.send({ success: false, reason: sqlErr });
           });
-    }
-    break;
+      }
+      break;
+    case "updateGithub":
+      if (req.body.newGithub === req.body.oldGithub) {
+        res.send({ success: false, reason: "" });
+      } else {
+        let newGithub = req.body.newGithub;
+        userData
+          .updateUserSimpleField(req.user.id, "github_handle", newGithub)
+          .then((sqlResult) => {
+            res.send(sqlResult);
+          })
+          .catch((sqlErr) => {
+            console.log(sqlErr);
+            res.send({ success: false, reason: sqlErr });
+          });
+      }
+      break;
     default:
       res.send({
         success: false,

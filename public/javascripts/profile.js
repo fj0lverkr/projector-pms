@@ -526,11 +526,63 @@ $(document).ready(function () {
         } else {
           toaster("error", data.reason);
           $("#inputWebsite").prop("disabled", false);
-          $("#WebsiteSpinner").hide();
+          $("#websiteSpinner").hide();
           $("#saveEditWebsite").show();
         }
       }
     );
   });
 
+  // Set website field editable
+  $("#toggleEditGithub").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileGithubUrl").hide();
+    $("#noGithubPlaceholder").hide();
+    $("#saveEditGithub").show();
+    $("#input-groupGithub").show();
+    let oldGithub = $("#profileGithubUrl").text();
+    $("#inputGithub").val(oldGithub);
+  });
+
+  // Save Github field
+  $("#saveEditGithub").click(function (e) {
+    let newGithub = $("#inputGithub").val();
+    e.preventDefault();
+    $("#inputGithub").prop("disabled", true);
+    $("#saveEditGithub").hide();
+    $("#githubSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateGithub",
+        oldGithub: $("#profileGithubUrl").text(),
+        newGithub: newGithub,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileGithubUrl").text(newGithub);
+            $("#profileGithubUrl").prop("href","https://github.com/" + newGithub);
+          }
+          $("#githubSpinner").hide();
+          $("#saveEditGithub").hide();
+          $("#input-groupGithub").hide();
+          if(newGithub != ""){
+            $("#profileGithubUrl").show();
+          } else {
+            $("#noGithubPlaceholder").show();
+          }
+          $("#toggleEditGithub").show();
+          $("#inputGithub").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputGithub").prop("disabled", false);
+          $("#githubSpinner").hide();
+          $("#saveEditGithub").show();
+        }
+      }
+    );
+  });
 });

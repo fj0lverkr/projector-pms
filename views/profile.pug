@@ -113,7 +113,10 @@ block content
               if profileWebsite && profileWebsite != ""
                 a.no-underline.text-secondary(href=profileWebsite target="_blank" id="profileWebsiteUrl").
                   #{profileWebsite}
+                span.text-secondary.hidden(id="noWebsitePlaceholder") no website added
               else
+                a.no-underline.text-secondary.hidden(href=profileWebsite target="_blank" id="profileWebsiteUrl").
+                  #{profileWebsite}
                 span.text-secondary(id="noWebsitePlaceholder") no website added
               if user.id == profileUser.id
                 .hidden(id="input-groupWebsite")
@@ -135,7 +138,9 @@ block content
               if profileGithub && profileGithub != ""
                 a.no-underline.text-secondary(href="https://github.com/" + profileGithub target="_blank" id="profileGithubUrl").
                   #{profileGithub}
+                span.text-secondary.hidden(id="noGithubPlaceholder") no Github username added
               else
+                a.no-underline.text-secondary.hidden(id="profileGithubUrl")
                 span.text-secondary(id="noGithubPlaceholder") no Github username added
               if user.id == profileUser.id
                 .hidden(id="input-groupGithub")
@@ -159,7 +164,9 @@ block content
               if profileLinkedIn && profileLinkedIn != ""
                 a.no-underline.text-secondary(href="https://www.linkedin.com/in/" + profileLinkedIn target="_blank" id="profileLinkedInUrl").
                   #{profileLinkedIn}
+                span.text-secondary.hidden(id="noLinkedInPlaceholder") no LinkedIn added
               else
+                a.no-underline.text-secondary.hidden(id="profileLinkedInUrl")
                 span.text-secondary(id="noLinkedInPlaceholder") no LinkedIn added
               if user.id == profileUser.id
                 .hidden(id="input-groupLinkedIn")
@@ -180,7 +187,9 @@ block content
             .col-sm-8
               if profileTwitter && profileTwitter != ""
                 a.no-underline.text-secondary(href="https://www.twitter.com/" + profileTwitter target="_blank" id="profileTwitterUrl") @#{profileTwitter}
+                span.text-secondary.hidden(id="noTwitterPlaceholder") no Twitter added
               else
+                a.no-underline.text-secondary.hidden(id="profileTwitterUrl")
                 span.text-secondary(id="noTwitterPlaceholder") no Twitter added
               if user.id == profileUser.id
                 .hidden(id="input-groupTwitter")
@@ -203,7 +212,9 @@ block content
             .col-sm-8
               if profileInstagram && profileInstagram != ""
                 a.no-underline.text-secondary(href="https://www.intagram.com/" + profileInstagram target="_blank" id="profileInstagramUrl") @#{profileInstagram}
+                span.text-secondary.hidden(id="noInstagramPlaceholder") no Instagram added
               else
+                a.no-underline.text-secondary.hidden(id="profileInstagramUrl")
                 span.text-secondary(id="noInstagramPlaceholder") no Instagram added
               if user.id == profileUser.id
                 .hidden(id="input-groupInstagram")
@@ -223,9 +234,11 @@ block content
                   path(d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z") Facebook
             .col-sm-8
               if profileFacebook && profileFacebook != ""
-                a.no-underline.text-secondary(href="https://www.facebook.com/" + profileFacebook target="_blank" id="profileFacebookUrl")
+                a.no-underline.text-secondary(href="https://www.facebook.com/" + profileFacebook target="_blank" id="profileFacebookUrl").
                   #{profileFacebook}
+                span.text-secondary.hidden(id="noFacebookPlaceholder") no Facebook added
               else
+                a.no-underline.text-secondary.hidden(id="profileFacebookUrl")
                 span.text-secondary(id="noFacebookPlaceholder") no Facebook added
               if user.id ==profileUser.id
                 .hidden(id="input-groupFacebook")

@@ -494,7 +494,9 @@ $(document).ready(function () {
   // Save website field
   $("#saveEditWebsite").click(function (e) {
     let newWebsite = $("#inputWebsite").val();
-    newWebsite = getValidUrl(newWebsite);
+    if(newWebsite != ""){
+      newWebsite = getValidUrl(newWebsite);
+    }
     e.preventDefault();
     $("#inputWebsite").prop("disabled", true);
     $("#saveEditWebsite").hide();
@@ -503,8 +505,8 @@ $(document).ready(function () {
       "../../users/ajax",
       {
         action: "updateWebsite",
-        oldWebsite: $("#profileWebsiteUrl").prop("href"),
-        newWebsite: newWebsite,
+        oldVal: $("#profileWebsiteUrl").prop("href"),
+        newVal: newWebsite,
       },
       function (data) {
         if (data.success === true || data.reason === "") {
@@ -556,8 +558,8 @@ $(document).ready(function () {
       "../../users/ajax",
       {
         action: "updateGithub",
-        oldGithub: $("#profileGithubUrl").text(),
-        newGithub: newGithub,
+        oldVal: $("#profileGithubUrl").text(),
+        newVal: newGithub,
       },
       function (data) {
         if (data.success === true || data.reason === "") {
@@ -609,8 +611,8 @@ $(document).ready(function () {
       "../../users/ajax",
       {
         action: "updateLinkedIn",
-        oldLinkedIn: $("#profileLinkedInUrl").text(),
-        newLinkedIn: newLinkedIn,
+        oldVal: $("#profileLinkedInUrl").text(),
+        newVal: newLinkedIn,
       },
       function (data) {
         if (data.success === true || data.reason === "") {
@@ -662,14 +664,23 @@ $(document).ready(function () {
       "../../users/ajax",
       {
         action: "updateTwitter",
-        oldTwitter: $("#profileTwitterUrl").text(),
-        newTwitter: newTwitter,
+        oldVal: $("#profileTwitterUrl").text(),
+        newVal: newTwitter,
       },
       function (data) {
         if (data.success === true || data.reason === "") {
           if (data.success === true) {
             toaster("success", data.reason);
-            $("#profileTwitterUrl").text(newGithub);
+            let newTwitterText ="";
+            if(newTwitter != ""){
+              if(newTwitter.charAt(0) == "@"){
+                newTwitterText = newTwitter;
+                newTwitter = newTwitter.substr(1);
+              } else {
+              newTwitterText = "@" + newTwitter;
+              }
+            }
+            $("#profileTwitterUrl").text(newTwitterText);
             $("#profileTwitterUrl").prop("href","https://www.twitter.com/" + newTwitter);
           }
           $("#twitterSpinner").hide();
@@ -715,14 +726,23 @@ $(document).ready(function () {
       "../../users/ajax",
       {
         action: "updateInstagram",
-        oldInstagram: $("#profileInstagramUrl").text(),
-        newInstagram: newInstagram,
+        oldVal: $("#profileInstagramUrl").text(),
+        newVal: newInstagram,
       },
       function (data) {
         if (data.success === true || data.reason === "") {
           if (data.success === true) {
             toaster("success", data.reason);
-            $("#profileInstagramUrl").text(newInstagram);
+            let newInstagramText="";
+            if(newInstagram != ""){
+              if(newInstagram.charAt(0) == "@"){
+                newInstagramText = newInstagram;
+                newInstagram = newInstagram.substr(1);
+              }else{
+                newInstagramText = "@" + newInstagram;
+              }
+            }
+            $("#profileInstagramUrl").text(newInstagramText);
             $("#profileInstagramUrl").prop("href","https://www.instagram.com/" + newInstagram);
           }
           $("#instagramSpinner").hide();
@@ -768,8 +788,8 @@ $(document).ready(function () {
       "../../users/ajax",
       {
         action: "updateFacebook",
-        oldFacebook: $("#profileFacebookUrl").text(),
-        newFacebook: newFacebook,
+        oldVal: $("#profileFacebookUrl").text(),
+        newVal: newFacebook,
       },
       function (data) {
         if (data.success === true || data.reason === "") {

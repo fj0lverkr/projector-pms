@@ -255,28 +255,38 @@ router.post("/ajax", (req, res) => {
       }
       break;
     case "updateWebsite":
-      if (req.body.newWebsite === req.body.oldWebsite) {
-        res.send({ success: false, reason: "" });
-      } else {
-        let newWebsite = req.body.newWebsite;
-        userData
-          .updateUserSimpleField(req.user.id, "website", newWebsite)
-          .then((sqlResult) => {
-            res.send(sqlResult);
-          })
-          .catch((sqlErr) => {
-            console.log(sqlErr);
-            res.send({ success: false, reason: sqlErr });
-          });
-      }
-      break;
+    case "updateLinkedIn":
+    case "updateTwitter":
     case "updateGithub":
-      if (req.body.newGithub === req.body.oldGithub) {
+    case "updateInstagram":
+    case "updateFacebook":
+      if (req.body.newVal === req.body.oldVal) {
         res.send({ success: false, reason: "" });
       } else {
-        let newGithub = req.body.newGithub;
+        let newVal = req.body.newVal;
+        let fieldName = "";
+        switch(req.body.action) {
+          case "updateWebsite":
+            fieldName = "website";
+            break;
+          case "updateLinkedIn":
+            fieldName = "linkedin_handle";
+            break;
+          case "updateTwitter":
+            fieldName = "twitter_handle";
+            break;
+          case "updateGithub":
+            fieldName = "github_handle";
+            break;
+          case "updateInstagram":
+            fieldName = "instagram_handle";
+            break;
+          case "updateFacebook":
+            fieldName = "facebook_handle";
+            break;
+        }
         userData
-          .updateUserSimpleField(req.user.id, "github_handle", newGithub)
+          .updateUserSimpleField(req.user.id, fieldName, newVal)
           .then((sqlResult) => {
             res.send(sqlResult);
           })

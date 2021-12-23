@@ -533,7 +533,7 @@ $(document).ready(function () {
     );
   });
 
-  // Set website field editable
+  // Set Github field editable
   $("#toggleEditGithub").click(function (e) {
     e.preventDefault();
     $(this).hide();
@@ -585,4 +585,217 @@ $(document).ready(function () {
       }
     );
   });
+
+  // Set LinkedIn field editable
+  $("#toggleEditLinkedIn").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileLinkedInUrl").hide();
+    $("#noLinkedInPlaceholder").hide();
+    $("#saveEditLinkedIn").show();
+    $("#input-groupLinkedIn").show();
+    let oldLinkedIn = $("#profileLinkedInUrl").text();
+    $("#inputLinkedIn").val(oldLinkedIn);
+  });
+
+  // Save LinkedIn field
+  $("#saveEditLinkedIn").click(function (e) {
+    let newLinkedIn = $("#inputLinkedIn").val();
+    e.preventDefault();
+    $("#inputLinkedIn").prop("disabled", true);
+    $("#saveEditLinkedIn").hide();
+    $("#linkedInSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateLinkedIn",
+        oldLinkedIn: $("#profileLinkedInUrl").text(),
+        newLinkedIn: newLinkedIn,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileLinkedInUrl").text(newLinkedIn);
+            $("#profileLinkedInUrl").prop("href","https://www.linkedin.com/" + newLinkedIn);
+          }
+          $("#linkedInSpinner").hide();
+          $("#saveEditLinkedIn").hide();
+          $("#input-groupLinkedIn").hide();
+          if(newLinkedIn != ""){
+            $("#profileLinkedInUrl").show();
+          } else {
+            $("#noLinkedInPlaceholder").show();
+          }
+          $("#toggleEditLinkedIn").show();
+          $("#inputLinkedIn").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputLinkedIn").prop("disabled", false);
+          $("#linkedInSpinner").hide();
+          $("#saveEditLinkedIn").show();
+        }
+      }
+    );
+  });
+
+  // Set Twitter field editable
+  $("#toggleEditTwitter").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileTwitterUrl").hide();
+    $("#noTwitterPlaceholder").hide();
+    $("#saveEditTwitter").show();
+    $("#input-groupTwitter").show();
+    let oldTwitter = $("#profileTwitterUrl").text();
+    $("#inputTwitter").val(oldTwitter);
+  });
+
+  // Save Twitter field
+  $("#saveEditTwitter").click(function (e) {
+    let newTwitter = $("#inputTwitter").val();
+    e.preventDefault();
+    $("#inputTwitter").prop("disabled", true);
+    $("#saveEditTwitter").hide();
+    $("#twitterSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateTwitter",
+        oldTwitter: $("#profileTwitterUrl").text(),
+        newTwitter: newTwitter,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileTwitterUrl").text(newGithub);
+            $("#profileTwitterUrl").prop("href","https://www.twitter.com/" + newTwitter);
+          }
+          $("#twitterSpinner").hide();
+          $("#saveEditTwitter").hide();
+          $("#input-groupTwitter").hide();
+          if(newTwitter != ""){
+            $("#profileTwitterUrl").show();
+          } else {
+            $("#noTwitterPlaceholder").show();
+          }
+          $("#toggleEditTwitter").show();
+          $("#inputTwitter").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputTwitter").prop("disabled", false);
+          $("#twitterSpinner").hide();
+          $("#saveEditTwitter").show();
+        }
+      }
+    );
+  });
+
+  // Set Instagram field editable
+  $("#toggleEditInstagram").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileInstagramUrl").hide();
+    $("#noInstagramPlaceholder").hide();
+    $("#saveEditInstagram").show();
+    $("#input-groupInstagram").show();
+    let oldInstagram = $("#profileInstagramUrl").text();
+    $("#inputInstagram").val(oldInstagram);
+  });
+
+  // Save Instagram field
+  $("#saveEditInstagram").click(function (e) {
+    let newInstagram = $("#inputInstagram").val();
+    e.preventDefault();
+    $("#inputInstagram").prop("disabled", true);
+    $("#saveEditInstagram").hide();
+    $("#instagramSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateInstagram",
+        oldInstagram: $("#profileInstagramUrl").text(),
+        newInstagram: newInstagram,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileInstagramUrl").text(newInstagram);
+            $("#profileInstagramUrl").prop("href","https://www.instagram.com/" + newInstagram);
+          }
+          $("#instagramSpinner").hide();
+          $("#saveEditInstagram").hide();
+          $("#input-groupInstagram").hide();
+          if(newInstagram != ""){
+            $("#profileInstagramUrl").show();
+          } else {
+            $("#noInstagramPlaceholder").show();
+          }
+          $("#toggleEditInstagram").show();
+          $("#inputInstagram").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputInstagram").prop("disabled", false);
+          $("#instagramSpinner").hide();
+          $("#saveEditInstagram").show();
+        }
+      }
+    );
+  });
+
+  // Set Facebook field editable
+  $("#toggleEditFacebook").click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $("#profileFacebookUrl").hide();
+    $("#noFacebookPlaceholder").hide();
+    $("#saveEditFacebook").show();
+    $("#input-groupFacebook").show();
+    let oldFacebook = $("#profileFacebookUrl").text();
+    $("#inputFacebook").val(oldFacebook);
+  });
+
+  // Save Facebook field
+  $("#saveEditFacebook").click(function (e) {
+    let newFacebook = $("#inputFacebook").val();
+    e.preventDefault();
+    $("#inputFacebook").prop("disabled", true);
+    $("#saveEditFacebook").hide();
+    $("#facebookSpinner").show();
+    $.post(
+      "../../users/ajax",
+      {
+        action: "updateFacebook",
+        oldFacebook: $("#profileFacebookUrl").text(),
+        newFacebook: newFacebook,
+      },
+      function (data) {
+        if (data.success === true || data.reason === "") {
+          if (data.success === true) {
+            toaster("success", data.reason);
+            $("#profileFacebookUrl").text(newFacebook);
+            $("#profileFacebookUrl").prop("href","https://www.facebook.com/" + newFacebook);
+          }
+          $("#facebookSpinner").hide();
+          $("#saveEditFacebook").hide();
+          $("#input-groupFacebook").hide();
+          if(newFacebook != ""){
+            $("#profileFacebookUrl").show();
+          } else {
+            $("#noFacebookPlaceholder").show();
+          }
+          $("#toggleEditFacebook").show();
+          $("#inputFacebook").prop("disabled", false);
+        } else {
+          toaster("error", data.reason);
+          $("#inputFacebook").prop("disabled", false);
+          $("#facebookSpinner").hide();
+          $("#saveEditFacebook").show();
+        }
+      }
+    );
+  });
+
 });

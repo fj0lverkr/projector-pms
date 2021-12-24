@@ -15,6 +15,7 @@ const publicRouter = require("./routes/public");
 const usersRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
 const authRouter = require("./routes/authorizationCode");
+const teamsRouter = require("./routes/teams");
 
 var app = express();
 
@@ -89,6 +90,7 @@ app.use("/dashboard", loginRequired, dashboardRouter);
 app.use("/users", usersRouter);
 app.use("/admin", adminRequired, adminRouter);
 app.use("/authorization-code", authRouter);
+app.use("/teams", loginRequired, teamsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (next) {

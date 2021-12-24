@@ -3,10 +3,17 @@ block variables
 -
     userMenu = {
         'Dashboard': '/dashboard',
-        'Projects': '/dashboard',
-        'New project':'/dashboard',
-        'Teams':'/teams',
-        };
+        'New idea':'/dashboard',
+    };
+    projectsMenu = {
+      'All':'/projects',
+      'My projects':'/projects/my',
+      'Team projects':'/projects/teams'
+    }
+    teamsMenu = {
+      'All':'/teams',
+      'My teams':'/teams/my',
+    };
     adminMenu = {
         'Admin Dashboard': '/admin',
     };
@@ -51,13 +58,25 @@ html(lang="en")
                             each val, key in userMenu
                                 li.nav-item
                                     a.nav-link(href=val) #{key}
+                            li.nav-item.dropdown
+                              a.nav-link.dropdown-toggle(href="#", id="projectsDropdownMenuLink", role="button", data-bs-toggle="dropdown", aria-label="false") Projects
+                              ul.dropdown-menu.dropdown-menu-dark(aria-labelledby="projectsDropdownMenuLink")
+                                each val, key in projectsMenu
+                                  li
+                                    a.dropdown-item(href=val) #{key}
+                            li.nav-item.dropdown
+                              a.nav-link.dropdown-toggle(href="#", id="teamsDropdownMenuLink", role="button", data-bs-toggle="dropdown", aria-expanded="false") Teams
+                              ul.dropdown-menu.dropdown-menu-dark(aria-labelledby="teamsDropdownMenuLink")
+                                each val, key in teamsMenu
+                                  li
+                                    a.dropdown-item(href=val) #{key}
                             if userIsSuper == 1
-                                li.nav-item.dropdown
-                                    a.nav-link.dropdown-toggle(href="#", id="adminDropdownMenuLink", role="button", data-bs-toggle="dropdown", aria-expanded="false") Admin
-                                    ul.dropdown-menu.dropdown-menu-dark(aria-labelledby="adminDropdownMenuLink")
-                                        each val, key in adminMenu
-                                            li
-                                                a.dropdown-item(href=val) #{key}
+                              li.nav-item.dropdown
+                                a.nav-link.dropdown-toggle(href="#", id="adminDropdownMenuLink", role="button", data-bs-toggle="dropdown", aria-expanded="false") Admin
+                                ul.dropdown-menu.dropdown-menu-dark(aria-labelledby="adminDropdownMenuLink")
+                                  each val, key in adminMenu
+                                    li
+                                      a.dropdown-item(href=val) #{key}
                             li.nav-item.d-inline.d-lg-none
                                 a.nav-link.extra-nav(href="/users/profile")
                                     span(id="navbarFirstName") #{user.profile.firstName}
